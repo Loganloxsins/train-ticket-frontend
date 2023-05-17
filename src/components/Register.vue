@@ -1,9 +1,13 @@
 <script lang="ts" setup>
-import { h, reactive, ref } from 'vue'
+import {h, onMounted, reactive, ref} from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
-import { ElNotification } from "element-plus"
+import { ElNotification,ElCascader,ElButton,ElInput,ElFormItem} from "element-plus"
 import { request } from "../utils/request"
 import { AxiosError, AxiosResponse } from 'axios';
+
+const data={
+  typePlaceHolder:'请选择证件类型'
+}
 
 const ruleFormRef = ref<FormInstance>()
 
@@ -16,10 +20,57 @@ const validateCheckPass = (rule: any, value: any, callback: any) => {
   }
 }
 
+const validateCheckIDCard = (rule: any, value: any, callback: any) => {
+  let IDCardType=ruleForm.IDCardType[0]
+  let valueReg
+  switch (IDCardType){
+    case '中国居民身份证':
+      valueReg=/^([1-6][1-9]|50)\d{4}(18|19|20)\d{2}((0[1-9])|10|11|12)(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/
+      if(valueReg.test(value)) callback()
+      else callback(new Error("请正确输入18位的证件号码！"))
+      break;
+
+    case '港澳台居民居住证':
+      valueReg=/^8[1-3]0{4}(18|19|20)\d{2}((0[1-9])|10|11|12)(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/
+      if(valueReg.test(value)) callback()
+      else callback(new Error("请正确输入18位的证件号码"))
+      break;
+
+    case '港澳居民来往内地通行证':
+      valueReg=/^[HM]\d{8}$/
+      if(valueReg.test(value)) callback()
+      else callback(new Error("请输入9位有效的港澳居民来往内地通行证号码！"))
+      break;
+
+    case '台湾居民来往大陆通行证':
+      valueReg=/^\d{8}$/
+      if(valueReg.test(value)) callback()
+      else callback(new Error("请输入8位有效的台湾居民来往大陆通行证号码！"))
+      break;
+
+    case '护照':
+      valueReg=/^[A-Za-z\d]{9}$/
+      if(valueReg.test(value)) callback()
+      else callback(new Error("请输入有效的护照号码！"))
+      break;
+
+    case '外国人永久居留身份证':
+      valueReg=/^[A-Za-z\d]{15}$/
+      if(valueReg.test(value)) callback()
+      else callback(new Error("请输入有效的外国人居留证号码！"))
+      break;
+
+    default:
+      break;
+  }
+}
+
 const ruleForm = reactive({
   username: '',
   password: '',
   checkPass: '',
+  IDCardType: '',
+  IDCard: '',
 })
 
 const rules = reactive<FormRules>({
@@ -41,7 +92,21 @@ const rules = reactive<FormRules>({
     validator: validateCheckPass,
     trigger: 'change'
   }],
+  IDCardType:[{required: true, message: '此字段为必填项', trigger: 'change'}],
+  IDCard:[{required: true, message:'此字段为必填项', trigger: 'change'},{
+    validator: validateCheckIDCard,
+    trigger: 'change'
+  }]
 })
+
+const options = [
+  {value: '中国居民身份证', label: '中国居民身份证'},
+  {value: '港澳台居民居住证', label: '港澳台居民居住证',},
+  {value: '港澳居民来往内地通行证', label: '港澳居民来往内地通行证'},
+  {value: '台湾居民来往大陆通行证', label: '台湾居民来往大陆通行证'},
+  {value: '护照', label: '护照'},
+  {value: '外国人永久居留身份证', label: '外国人永久居留身份证'},
+]
 
 const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
@@ -55,7 +120,12 @@ const submitForm = (formEl: FormInstance | undefined) => {
       method: 'POST',
       data: {
         username: ruleForm.username,
-        password: ruleForm.password
+        password: ruleForm.password,
+        idcard: ruleForm.IDCard,
+        name:'jypppp',
+        email:'1042822303@qq.com',
+        phone:'18261715196',
+        type:'客户'
       }
     })
 
@@ -93,10 +163,22 @@ const submitForm = (formEl: FormInstance | undefined) => {
       <el-input v-model="ruleForm.checkPass" autocomplete="off" type="password" />
     </el-form-item>
 
+    <el-form-item label="证件类型" prop="IDCardType">
+      <el-cascader
+          :options="options"
+          :placeholder="data.typePlaceHolder"
+          v-model="ruleForm.IDCardType"
+          clearable />
+    </el-form-item>
+
+    <el-form-item label="证件号码" prop="IDCard">
+      <el-input v-model="ruleForm.IDCard" type="text" />
+    </el-form-item>
+
     <el-form-item label="随便push看" prop="checkPass">
       <el-input v-model="ruleForm.checkPass" autocomplete="off" type="password" />
     </el-form-item>
-    
+
     <el-form-item>
       <el-button style="margin-left: 25%" type="primary" @click="submitForm(ruleFormRef)">注册</el-button>
     </el-form-item>
