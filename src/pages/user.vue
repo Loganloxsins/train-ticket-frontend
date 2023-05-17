@@ -21,7 +21,7 @@ const activeName = ref('登录')
 <style scoped>
 .box-card {
     width: 480px;
-    height: 270px;
+    /*height: 270px;*/
     margin: 20vh auto 0;
 }
 </style>
