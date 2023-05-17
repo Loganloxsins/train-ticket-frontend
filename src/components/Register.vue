@@ -93,6 +93,10 @@ const submitForm = (formEl: FormInstance | undefined) => {
       <el-input v-model="ruleForm.checkPass" autocomplete="off" type="password" />
     </el-form-item>
 
+    <el-form-item label="随便push看" prop="checkPass">
+      <el-input v-model="ruleForm.checkPass" autocomplete="off" type="password" />
+    </el-form-item>
+    
     <el-form-item>
       <el-button style="margin-left: 25%" type="primary" @click="submitForm(ruleFormRef)">注册</el-button>
     </el-form-item>
