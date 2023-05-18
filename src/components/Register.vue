@@ -71,6 +71,8 @@ const ruleForm = reactive({
   checkPass: '',
   IDCardType: '',
   IDCard: '',
+  email:'',
+  phonenumber:'',
 })
 
 const rules = reactive<FormRules>({
@@ -96,7 +98,13 @@ const rules = reactive<FormRules>({
   IDCard:[{required: true, message:'此字段为必填项', trigger: 'change'},{
     validator: validateCheckIDCard,
     trigger: 'change'
-  }]
+  }],
+  email: [{ required: true, message: '此字段为必填项', trigger: 'change' }, {
+    pattern: /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/, message: '请输入有效的电子邮件地址！', trigger: 'change'
+  }],
+  phonenumber: [{ required: true, message: '此字段为必填项', trigger: 'change' }, {
+    pattern: /^1(3[0-9]|5[0-3,5-9]|7[1-3,5-8]|8[0-9])\d{8}$/, message: '请输入有效的电话号码！', trigger: 'change'
+  }],
 })
 
 const options = [
@@ -122,9 +130,9 @@ const submitForm = (formEl: FormInstance | undefined) => {
         username: ruleForm.username,
         password: ruleForm.password,
         idcard: ruleForm.IDCard,
-        name:'jypppp',
-        email:'1042822303@qq.com',
-        phone:'18261715196',
+        name:'jypppp',//为什么这里还要加一个name，先没有动
+        email:ruleForm.email,
+        phone:ruleForm.phonenumber,
         type:'客户'
       }
     })
@@ -175,9 +183,14 @@ const submitForm = (formEl: FormInstance | undefined) => {
       <el-input v-model="ruleForm.IDCard" type="text" />
     </el-form-item>
 
-    <el-form-item label="随便push看" prop="checkPass">
-      <el-input v-model="ruleForm.checkPass" autocomplete="off" type="password" />
+    <el-form-item label="电子邮箱" prop="email">
+      <el-input v-model="ruleForm.email" autocomplete="off" type="text" />
     </el-form-item>
+
+    <el-form-item label="手机号码" prop="phonenumber">
+      <el-input v-model="ruleForm.phonenumber" autocomplete="off" type="tel" />
+    </el-form-item>
+
 
     <el-form-item>
       <el-button style="margin-left: 25%" type="primary" @click="submitForm(ruleFormRef)">注册</el-button>
