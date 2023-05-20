@@ -10,6 +10,7 @@ const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive({
   username: '',
   password: '',
+  role: '',
 })
 
 const rules = reactive<FormRules>({
@@ -27,6 +28,7 @@ const rules = reactive<FormRules>({
     message: '密码未达到复杂性要求:密码必须包含大小写字母和数字',
     trigger: 'change'
   }],
+  role: [{ required: true, message: '此字段为必填项', trigger: 'change' }],
 })
 
 const submitForm = (formEl: FormInstance | undefined) => {
@@ -41,7 +43,8 @@ const submitForm = (formEl: FormInstance | undefined) => {
       method: 'POST',
       data: {
         username: ruleForm.username,
-        password: ruleForm.password
+        password: ruleForm.password,
+        role: ruleForm.role
       }
     })
 
@@ -74,6 +77,12 @@ const submitForm = (formEl: FormInstance | undefined) => {
       <el-input v-model="ruleForm.password" autocomplete="off" type="password" show-password />
     </el-form-item>
 
+    <el-form-item label="身份" prop="role">
+      <el-select v-model="ruleForm.role" placeholder="请选择您的登入身份">
+      <el-option label="乘客" value="passenger"></el-option>
+      <el-option label="管理员" value="admin"></el-option>
+    </el-select>
+    </el-form-item>
 
     <el-form-item>
       <el-button style="margin-left: 25%" type="primary" @click="submitForm(ruleFormRef)">登录</el-button>

@@ -1,7 +1,7 @@
 <template>
-    <Menu pageIndex="/user" />
+    <Menu pageIndex="/admin" />
     <div class="user-page">
-        <h1>这是用户跳进来看到的</h1>
+        <h1>管理员页面</h1>
 
         <div class="ticket-selection">
             <h2>进入主页是看不到导航栏的，然后以用户身份登陆进来这里。</h2>

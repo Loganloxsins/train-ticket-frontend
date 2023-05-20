@@ -133,7 +133,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
         name:'jypppp',//为什么这里还要加一个name，先没有动
         email:ruleForm.email,
         phone:ruleForm.phonenumber,
-        type:'客户'
+        type:'客户',
       }
     })
 
