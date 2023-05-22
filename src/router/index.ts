@@ -2,6 +2,7 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import HomePage from '../pages/index.vue';
 import UserPage from '../pages/user.vue';
 import AdminPage from '../pages/admin.vue';
+import AdminLayout from "../pages/adminLayout.vue";
 
 const routes: Array<RouteRecordRaw> = [
     {
@@ -20,6 +21,12 @@ const routes: Array<RouteRecordRaw> = [
         name: 'admin',
         component: AdminPage,
         meta: { requiresAuth: true, role: 'admin' } // 需要管理员身份才能访问
+    },
+    {
+        path: '/adminLayout',
+        name: 'adminLayout',
+        component: AdminLayout,
+        meta: { requiresAuth: true, role: 'adminLayout' }
     },
     //其他路由配置
 ];
