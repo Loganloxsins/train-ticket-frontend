@@ -5,6 +5,7 @@ import { SERVER_ADDR } from "../config";
 function request(args: AxiosRequestConfig<any>) {
     args.baseURL = SERVER_ADDR
     args.timeout = 5000
+    args.withCredentials = true
     return axios.request(args)
 }
 

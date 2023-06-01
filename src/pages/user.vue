@@ -1,98 +1,55 @@
-<template>
-    <Menu pageIndex="/user" />
-    <div class="user-page">
-        <h1>这是用户跳进来看到的</h1>
+<script setup>
+import {useUserStore} from "~/stores/user";
+import {useRouter} from "vue-router";
+import {ref} from "vue";
 
-        <div class="ticket-selection">
-            <h2>进入主页是看不到导航栏的，然后以用户身份登陆进来这里。</h2>
-            <div v-for="ticket in tickets" :key="ticket.id" class="ticket-card">
-                <h3>{{ ticket.name }}</h3>
-                <p>{{ ticket.description }}</p>
-                <p>Price: ${{ ticket.price }}</p>
-                <button @click="selectTicket(ticket)">Select</button>
-            </div>
-        </div>
+const router = useRouter()
+const user = useUserStore()
 
-        <div v-if="selectedTicket" class="ticket-details">
-            <h2>Selected Ticket Details</h2>
-            <h3>{{ selectedTicket.name }}</h3>
-            <p>{{ selectedTicket.description }}</p>
-            <p>Price: ${{ selectedTicket.price }}</p>
-            <button @click="purchaseTicket">Purchase</button>
-        </div>
-    </div>
-</template>
+let index = ref(1)
 
-<script>
-import { ref } from "vue";
+const menuSelect = (key) => {
+  index.value = key
+  console.log(key);
+}
 
-export default {
-    name: "UserPage",
-    setup() {
-        const tickets = ref([
-            {
-                id: 1,
-                name: "Standard Ticket",
-                description: "Access to standard seating area",
-                price: 20,
-            },
-            {
-                id: 2,
-                name: "VIP Ticket",
-                description: "Access to VIP seating area",
-                price: 50,
-            },
-            {
-                id: 3,
-                name: "Premium Ticket",
-                description: "Access to premium seating area",
-                price: 80,
-            },
-        ]);
-
-        const selectedTicket = ref(null);
-
-        const selectTicket = (ticket) => {
-            selectedTicket.value = ticket;
-        };
-
-        const purchaseTicket = () => {
-            if (selectedTicket.value) {
-                // TODO: Implement ticket purchase logic
-                console.log("Ticket purchased:", selectedTicket.value);
-            }
-        };
-
-        return {
-            tickets,
-            selectedTicket,
-            selectTicket,
-            purchaseTicket,
-        };
-    },
-};
 </script>
 
+<template>
+  <el-container>
+    <el-header>
+      <MenuComponent pageIndex="/user"/>
+    </el-header>
+    <el-container style="display: flex; align-items: center; height: 85vh">
+      <el-aside width="15%">
+        <el-menu
+          default-active="1"
+          class="el-menu-vertical-demo"
+          style="height: 85vh; display: flex; flex-direction: column; justify-content: center"
+          @select="menuSelect"
+        >
+          <el-menu-item index="1">
+            <strong>
+              个人信息
+            </strong>
+          </el-menu-item>
+        </el-menu>
+      </el-aside>
+      <el-main style="display: flex; justify-content: center; align-items: center">
+        <div v-show="index===1">
+          <el-text size="large" type="primary" style="display: flex;justify-content: center">
+            <h1>个人信息</h1>
+          </el-text>
+          <br/>
+          <UserInfoComponent style="width: 35vh; margin: 0 auto"/>
+        </div>
+
+      </el-main>
+    </el-container>
+
+  </el-container>
+</template>
+
 <style scoped>
-.user-page {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    text-align: center;
-}
 
-.ticket-card {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 10px;
-}
-
-.ticket-details {
-    margin-top: 20px;
-}
-
-button {
-    margin-top: 10px;
-}
 </style>
