@@ -8,6 +8,7 @@ interface OrderDetailData {
   end_station_id: number,
   departure_time: string,
   arrival_time: string,
+  price:number
 }
 
 interface TicketInfo {
@@ -48,4 +49,12 @@ interface TrainDetailInfo {
   extra_infos: Array<string>
 }
 
-export { OrderDetailData, TicketInfo, RouteInfo, StationInfo, TrainInfo,TrainDetailInfo }
+interface UserInfo{
+  username: string,
+  name: string,
+  phone: string,
+  idn:string
+  type:string;
+  mileage_points:number;
+}
+export { OrderDetailData, TicketInfo, RouteInfo, StationInfo, TrainInfo,TrainDetailInfo, UserInfo }

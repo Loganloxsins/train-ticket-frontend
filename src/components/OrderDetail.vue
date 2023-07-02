@@ -2,7 +2,7 @@
 
 import { request } from "~/utils/request";
 import { ElNotification } from "element-plus";
-import { h, onMounted, reactive, watch } from "vue";
+import { h, onMounted, reactive, watch, ref } from "vue";
 import { useStationsStore } from "~/stores/stations";
 import { parseDate } from "~/utils/date";
 import { useRouter } from "vue-router";
@@ -15,6 +15,8 @@ const props = defineProps({
   id: Number,
 })
 
+let dialog = ref(false)
+
 let orderDetail = reactive<{ data: OrderDetailData }>({
   data: {
     id: 0,
@@ -26,6 +28,7 @@ let orderDetail = reactive<{ data: OrderDetailData }>({
     end_station_id: 0,
     departure_time: '',
     arrival_time: '',
+    price:0
   },
 })
 
@@ -218,7 +221,8 @@ getOrderDetail()
         <el-button type="danger" @click="cancel(id ?? -1)">
           取消订单
         </el-button>
-        <el-button type="primary" @click="pay(id ?? -1)">
+        <!--        <el-button type="primary" @click="pay(id ?? -1)">-->
+        <el-button type="primary" @click="dialog = true">
           支付订单
         </el-button>
       </div>
@@ -230,8 +234,10 @@ getOrderDetail()
         </el-button>
       </div>
     </div>
-
   </div>
+  <el-dialog destroy-on-close v-model="dialog" title="订单详情" width="50%">
+    <PaymentDetail :id="id" />
+  </el-dialog>
 </template>
 
 <style scoped></style>

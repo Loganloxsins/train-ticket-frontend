@@ -56,6 +56,15 @@ const orderRules = reactive<FormRules>({
 
 const submitOrderForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
+  let array=props.ticket_info
+  let price
+  for(let i=0;i<array?.length;i++){
+    if(!(array) || array[i].type==orderForm.seat_type){
+      if (array) {
+        price = array[i].price
+      }
+    }
+  }
 
   formEl.validate((valid) => {
     if (!valid) return
@@ -73,7 +82,8 @@ const submitOrderForm = (formEl: FormInstance | undefined) => {
         },
         start_station_id: props.start_station_id,
         end_station_id: props.end_station_id,
-        seat_type: orderForm.seat_type
+        seat_type: orderForm.seat_type,
+        price:price
       }
     })
 
@@ -163,7 +173,7 @@ const submitOrderForm = (formEl: FormInstance | undefined) => {
     <el-form-item label="坐席" prop="seat_type">
       <el-select v-model="orderForm.seat_type">
         <el-option v-for="ticket in props.ticket_info" :value="ticket.type" :label="`${ticket.type}  ${ticket.price}元`"
-          :disabled="ticket.count == 0" />
+                   :disabled="ticket.count == 0" />
       </el-select>
     </el-form-item>
     <el-form-item>
