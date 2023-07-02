@@ -4,6 +4,7 @@ import Vue from '@vitejs/plugin-vue'
 import Pages from 'vite-plugin-pages'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+import { createStyleImportPlugin, ElementPlusResolve } from 'vite-plugin-style-import'
 import Unocss from 'unocss/vite'
 import {
     presetAttributify,
@@ -18,7 +19,7 @@ const pathSrc = path.resolve(__dirname, 'src')
 export default defineConfig({
     plugins: [
         Vue(),
-        Pages(),
+        Pages({importMode: 'sync'}),
         Components({
             extensions: ['vue'],
             include: [/\.vue$/, /\.vue\?vue/],
@@ -42,6 +43,9 @@ export default defineConfig({
                 transformerDirectives(),
                 transformerVariantGroup(),
             ]
+        }),
+        createStyleImportPlugin({
+            resolves: [ElementPlusResolve()],
         }),
     ],
     resolve: {
