@@ -10,7 +10,8 @@ import OrderPage from '../pages/order.vue';
 import RoutePage from '../pages/route.vue';
 import TrainPage from '../pages/train.vue';
 import StationPage from '../pages/station.vue';
-
+import VipregisterPage from '../pages/vipregister.vue';
+import PointPage from '../pages/point.vue';
 
 const routes: Array<RouteRecordRaw> = [
     {
@@ -40,6 +41,18 @@ const routes: Array<RouteRecordRaw> = [
         path: '/user/order',
         name: 'order',
         component: OrderPage,
+        meta: { requiresAuth: true, role: 'passenger' }
+    },
+    {
+        path: '/user/vipregister',
+        name: 'vipregister',
+        component: VipregisterPage,
+        meta: { requiresAuth: true, role: 'passenger' }
+    },
+    {
+        path: '/user/point',
+        name: 'point',
+        component: PointPage,
         meta: { requiresAuth: true, role: 'passenger' }
     },
     {

@@ -9,7 +9,6 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    ElAside: typeof import('element-plus/es')['ElAside']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCard: typeof import('element-plus/es')['ElCard']
     ElCheckbox: typeof import('element-plus/es')['ElCheckbox']
@@ -66,6 +65,9 @@ declare module '@vue/runtime-core' {
     TrainManageForm: typeof import('./components/TrainManageForm.vue')['default']
     UserInfoComponent: typeof import('./components/UserInfoComponent.vue')['default']
     UserOrders: typeof import('./components/UserOrders.vue')['default']
+    VipForm: typeof import('./components/VipForm.vue')['default']
+    ViploginForm: typeof import('./components/ViploginForm.vue')['default']
+    VipregForm: typeof import('./components/VipregForm.vue')['default']
   }
   export interface ComponentCustomProperties {
     vLoading: typeof import('element-plus/es')['ElLoadingDirective']
