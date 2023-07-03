@@ -16,6 +16,10 @@ const props = defineProps({
 })
 
 let dialog = ref(false)
+let day=ref(0)
+let hr=ref(0)
+let min=ref(0)
+let sec=ref(0)
 
 let orderDetail = reactive<{ data: OrderDetailData }>({
   data: {
@@ -133,6 +137,35 @@ const cancel = (id: number) => {
   })
 }
 
+const countdown = () => {
+  let dt=new Date(orderDetail.data.created_at)
+
+  const y = dt.getFullYear()
+  const m = (dt.getMonth() + 1 + '').padStart(2, '0')
+  const d = (dt.getDate() + '').padStart(2, '0')
+  const hh = (dt.getHours() + '').padStart(2, '0')
+  const mm = (dt.getMinutes() + '').padStart(2, '0')
+  const ss = (dt.getSeconds() + '').padStart(2, '0')
+
+  const end = Date.parse((new Date(`${y}-${m}-${d+1} ${hh}:${mm}:${ss}`)).toString())
+  const now = Date.parse((new Date().toString()))
+  const msec = end - now
+
+  if(msec==0){
+    cancel(props.id ?? -1)
+  }
+  if(msec<0) return;
+
+  day.value = parseInt(String(msec / 1000 / 60 / 60 / 24))
+  hr.value = parseInt(String(msec / 1000 / 60 / 60 % 24))
+  min.value = parseInt(String(msec / 1000 / 60 % 60))
+  sec.value = parseInt(String(msec / 1000 % 60))
+
+  setTimeout(function () {
+    countdown()
+  }, 1000)
+}
+
 watch(orderDetail, () => {
   getTrain()
 })
@@ -140,6 +173,7 @@ watch(orderDetail, () => {
 onMounted(() => {
   stations.fetch()
   getOrderDetail()
+  countdown()
 })
 
 getOrderDetail()
@@ -182,6 +216,9 @@ getOrderDetail()
         {{ orderDetail.data.status }}
       </el-text>
     </div>
+
+    <div v-if="orderDetail.data && orderDetail.data.status === '等待支付'" style="font-size: 16px;color: #db2828">剩余支付时间（超时自动关闭）:  {{hr}}小时 {{min}}分钟 {{sec}}秒</div>
+
     <div style="margin-bottom: 2vh">
       <el-text size="large" tag="b" type="primary">
         车次信息:
@@ -221,7 +258,6 @@ getOrderDetail()
         <el-button type="danger" @click="cancel(id ?? -1)">
           取消订单
         </el-button>
-        <!--        <el-button type="primary" @click="pay(id ?? -1)">-->
         <el-button type="primary" @click="dialog = true">
           支付订单
         </el-button>
