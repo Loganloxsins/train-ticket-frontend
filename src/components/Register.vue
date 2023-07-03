@@ -1,13 +1,12 @@
 <script lang="ts" setup>
-import {h, onMounted, reactive, ref} from 'vue'
+import { h, reactive, ref } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
-import { ElNotification,ElCascader,ElButton,ElInput,ElFormItem} from "element-plus"
-import { request } from "../utils/request"
+import { ElNotification } from "element-plus"
+import { request } from "~/utils/request"
 import { AxiosError, AxiosResponse } from 'axios';
+import { useRouter } from "vue-router";
 
-const data={
-  typePlaceHolder:'请选择证件类型'
-}
+const router = useRouter();
 
 const ruleFormRef = ref<FormInstance>()
 
@@ -20,60 +19,14 @@ const validateCheckPass = (rule: any, value: any, callback: any) => {
   }
 }
 
-const validateCheckIDCard = (rule: any, value: any, callback: any) => {
-  let IDCardType=ruleForm.IDCardType[0]
-  let valueReg
-  switch (IDCardType){
-    case '中国居民身份证':
-      valueReg=/^([1-6][1-9]|50)\d{4}(18|19|20)\d{2}((0[1-9])|10|11|12)(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/
-      if(valueReg.test(value)) callback()
-      else callback(new Error("请正确输入18位的证件号码！"))
-      break;
-
-    case '港澳台居民居住证':
-      valueReg=/^8[1-3]0{4}(18|19|20)\d{2}((0[1-9])|10|11|12)(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/
-      if(valueReg.test(value)) callback()
-      else callback(new Error("请正确输入18位的证件号码"))
-      break;
-
-    case '港澳居民来往内地通行证':
-      valueReg=/^[HM]\d{8}$/
-      if(valueReg.test(value)) callback()
-      else callback(new Error("请输入9位有效的港澳居民来往内地通行证号码！"))
-      break;
-
-    case '台湾居民来往大陆通行证':
-      valueReg=/^\d{8}$/
-      if(valueReg.test(value)) callback()
-      else callback(new Error("请输入8位有效的台湾居民来往大陆通行证号码！"))
-      break;
-
-    case '护照':
-      valueReg=/^[A-Za-z\d]{9}$/
-      if(valueReg.test(value)) callback()
-      else callback(new Error("请输入有效的护照号码！"))
-      break;
-
-    case '外国人永久居留身份证':
-      valueReg=/^[A-Za-z\d]{15}$/
-      if(valueReg.test(value)) callback()
-      else callback(new Error("请输入有效的外国人居留证号码！"))
-      break;
-
-    default:
-      break;
-  }
-}
-
 const ruleForm = reactive({
   username: '',
   password: '',
   checkPass: '',
   name: '',
-  IDCardType: '',
-  IDCard: '',
-  email:'',
-  phonenumber:'',
+  type: '身份证',
+  idn: '',
+  phone: '',
   rick: false,
 })
 
@@ -101,27 +54,16 @@ const rules = reactive<FormRules>({
   }, {
     pattern: /^[\u4e00-\u9fa5]{2,16}$/, message: '姓名只能包含中文', trigger: 'change'
   }],
-  IDCardType:[{required: true, message: '此字段为必填项', trigger: 'change'}],
-  IDCard:[{required: true, message:'此字段为必填项', trigger: 'change'},{
-    validator: validateCheckIDCard,
-    trigger: 'change'
+  idn: [{ required: true, message: '此字段为必填项', trigger: 'change' }, {
+    pattern: /^\d{17}(\d|X)$/, message: '身份证号码不符合要求', trigger: 'change'
   }],
-  email: [{ required: true, message: '此字段为必填项', trigger: 'change' }, {
-    pattern: /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/, message: '请输入有效的电子邮件地址！', trigger: 'change'
+  type: [{ required: true, message: '此字段为必填项', trigger: 'change' }, {
+    pattern: /^(身份证|护照|其他)$/, message: '证件类型不符合要求', trigger: 'change'
   }],
-  phonenumber: [{ required: true, message: '此字段为必填项', trigger: 'change' }, {
-    pattern: /^1(3[0-9]|5[0-3,5-9]|7[1-3,5-8]|8[0-9])\d{8}$/, message: '请输入有效的电话号码！', trigger: 'change'
+  phone: [{ required: true, message: '此字段为必填项', trigger: 'change' }, {
+    pattern: /^1[3456789]\d{9}$/, message: '手机号码不符合要求', trigger: 'change'
   }],
 })
-
-const options = [
-  {value: '中国居民身份证', label: '中国居民身份证'},
-  {value: '港澳台居民居住证', label: '港澳台居民居住证',},
-  {value: '港澳居民来往内地通行证', label: '港澳居民来往内地通行证'},
-  {value: '台湾居民来往大陆通行证', label: '台湾居民来往大陆通行证'},
-  {value: '护照', label: '护照'},
-  {value: '外国人永久居留身份证', label: '外国人永久居留身份证'},
-]
 
 const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
@@ -131,106 +73,89 @@ const submitForm = (formEl: FormInstance | undefined) => {
     console.log('submit!')
 
     const r = request({
-      url: '/v1/user',
+      url: '/user',
       method: 'POST',
       data: {
         username: ruleForm.username,
         password: ruleForm.password,
-        idcard: ruleForm.IDCard,
-        name:'jypppp',//为什么这里还要加一个name，先没有动//0629这是人的姓名        email:ruleForm.email,
-        phone:ruleForm.phonenumber,
-        type:'客户',
+        name: ruleForm.name,
+        type: ruleForm.type,
+        idn: ruleForm.idn,
+        phone: ruleForm.phone,
       }
     })
-
     r.then((response: AxiosResponse<any>) => {
-      console.log(response)
       ElNotification({
+        offset: 70,
         title: '注册成功',
         message: h('info', { style: 'color: teal' }, response.data.msg),
       })
+      router.push('/login')
     }).catch((error: AxiosError<any>) => {
       console.log(error)
       ElNotification({
-        title: '错误',
+        offset: 70,
+        title: 'register错误',
         message: h('error', { style: 'color: teal' }, error.response?.data.msg),
       })
     })
   })
-
 
 }
 
 </script>
 
 <template>
-  <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" class="demo-ruleForm" label-width="120px" status-icon>
+  <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" class="demo-ruleForm" label-width="120px">
     <el-form-item label="用户名" prop="username">
       <el-input v-model="ruleForm.username" type="text" />
     </el-form-item>
-
     <el-form-item label="密码" prop="password">
       <el-input v-model="ruleForm.password" autocomplete="off" type="password" />
     </el-form-item>
-
     <el-form-item label="密码确认" prop="checkPass">
       <el-input v-model="ruleForm.checkPass" autocomplete="off" type="password" />
     </el-form-item>
-
     <el-form-item label="姓名" prop="name">
       <el-input v-model="ruleForm.name" type="text" />
     </el-form-item>
-
-    <el-form-item label="证件类型" prop="IDCardType">
-      <el-cascader
-          :options="options"
-          :placeholder="data.typePlaceHolder"
-          v-model="ruleForm.IDCardType"
-          clearable />
+    <el-form-item label="证件类型" prop="type">
+      <el-select v-model="ruleForm.type" placeholder=" ">
+        <el-option value="身份证" />
+        <el-option value="护照" />
+        <el-option value="其他" />
+      </el-select>
+    </el-form-item>
+    <el-form-item label="证件号码" prop="idn">
+      <el-input v-model="ruleForm.idn" type="text" />
+    </el-form-item>
+    <el-form-item label="手机号" prop="phone">
+      <el-input v-model="ruleForm.phone" />
+    </el-form-item>
+    <el-form-item prop="rick">
+      <el-checkbox v-model="ruleForm.rick">
+        <span>我已阅读并同意</span>
+        <el-link type="primary" href="https://www.bilibili.com/video/BV1GJ411x7h7/"
+                 target="_blank">《l23o6客户服务中心网站服务条款》</el-link>
+      </el-checkbox>
     </el-form-item>
 
-    <el-form-item label="证件号码" prop="IDCard">
-      <el-input v-model="ruleForm.IDCard" type="text" />
-    </el-form-item>
-
-    <el-form-item label="电子邮箱" prop="email">
-      <el-input v-model="ruleForm.email" autocomplete="off" type="text" />
-    </el-form-item>
-
-    <el-form-item label="手机号码" prop="phonenumber">
-      <el-input v-model="ruleForm.phonenumber" autocomplete="off" type="tel" />
-    </el-form-item>
-
-
-  <el-form-item prop="rick">
-  <div class="read-container">
-    <el-checkbox v-model="ruleForm.rick">
-      <span>我已阅读并同意</span>
-      <el-link type="primary" href="https://www.bilibili.com/video/BV1GJ411x7h7/" target="_blank">《l23o6客户服务中心网站服务条款》</el-link>
-    </el-checkbox>
-  </div>
-</el-form-item>
-
-<div class="config-container">
-  
-    <el-form-item>
-      <el-button type="primary" @click="submitForm(ruleFormRef)" :disabled="!ruleForm.rick">注册</el-button>
-    </el-form-item>
-  </div>
+    <el-row justify="start">
+      <el-col :span="12" style="display: flex; justify-content: center; align-items: center">
+        <el-form-item>
+          <el-button type="primary" @click="submitForm(ruleFormRef)" :disabled="!ruleForm.rick">注册</el-button>
+        </el-form-item>
+      </el-col>
+      <el-col :span="7" style="display: flex; justify-content: center; align-items: center">
+        <el-form-item>
+          <el-button @click="$router.back()">
+            返回
+          </el-button>
+        </el-form-item>
+      </el-col>
+    </el-row>
   </el-form>
 </template>
 
-<style scoped>
-.read-container {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  margin-left:-90px;  
-  }
-
-.config-container {
-  margin-left:80px;  
-  }
-</style>
+<style scoped></style>
 

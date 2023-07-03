@@ -65,7 +65,6 @@ declare module '@vue/runtime-core' {
     TrainManageForm: typeof import('./components/TrainManageForm.vue')['default']
     UserInfoComponent: typeof import('./components/UserInfoComponent.vue')['default']
     UserOrders: typeof import('./components/UserOrders.vue')['default']
-    VipForm: typeof import('./components/VipForm.vue')['default']
     ViploginForm: typeof import('./components/ViploginForm.vue')['default']
     VipregForm: typeof import('./components/VipregForm.vue')['default']
   }

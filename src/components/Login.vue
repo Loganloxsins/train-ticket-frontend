@@ -39,12 +39,11 @@ const submitForm = (formEl: FormInstance | undefined) => {
     console.log('submit!')
 
     const r = request({
-      url: '/v1/session',
+      url: '/session',
       method: 'POST',
       data: {
         username: ruleForm.username,
         password: ruleForm.password,
-        role: ruleForm.role
       }
     })
 
