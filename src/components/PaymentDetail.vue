@@ -7,6 +7,7 @@ import { useStationsStore } from "~/stores/stations";
 import { useRouter } from "vue-router";
 import {OrderDetailData, UserInfo} from "~/utils/interfaces";
 import {useUserStore} from "~/stores/user";
+import {Plus, Search, Star} from "@element-plus/icons-vue";
 
 const router = useRouter()
 const stations = useStationsStore()
@@ -154,15 +155,6 @@ const refreshData = () => {
 
     <div>
       <el-text size="large" tag="b" type="primary">
-        订单总价:
-      </el-text>
-      <el-text size="large" tag="b">
-        {{newPrice}}
-      </el-text>
-    </div>
-
-    <div>
-      <el-text size="large" tag="b" type="primary">
         您现在的积分数：
       </el-text>
       <el-text size="large" tag="b">
@@ -170,11 +162,32 @@ const refreshData = () => {
       </el-text>
     </div>
 
+    <div>
     <el-switch
         v-model="value"
         active-text="使用积分"
         inactive-text="不使用积分" @click="change(id ?? -1)">
     </el-switch>
+    </div>
+
+    <div v-if="userDetail.data.member===false">
+      <el-text>您还不是会员,不可使用积分</el-text>
+      <el-button type="primary" @click="$router.push('/vipregister')">
+        <el-icon style="vertical-align: middle">
+          <Star />
+        </el-icon>
+        <span>成为会员</span>
+      </el-button>
+    </div>
+
+    <div>
+      <el-text size="large" tag="b" type="primary">
+        订单总价:
+      </el-text>
+      <el-text size="large" tag="b">
+        {{newPrice}}
+      </el-text>
+    </div>
 
     <div style="margin-bottom: 2vh;">
       <el-button style="float:left" @click="payByAlipay(id ?? -1)">

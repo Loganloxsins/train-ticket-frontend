@@ -54,13 +54,13 @@ const submitForm = (formEl: FormInstance | undefined) => {
 
     r.then((response: AxiosResponse<any>) => {
       console.log(response)
-      user.fetch()
       if(ruleForm.role=='passenger'){
         router.push('/userhome')
       }
       else {
         router.push('/station')
       }
+      user.fetch()
       ElNotification({
         title: '登录成功',
         message: h('i', { style: 'color: teal' }, response.data.msg),

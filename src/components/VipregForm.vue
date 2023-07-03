@@ -57,7 +57,6 @@ const submitForm = (formEl: FormInstance | undefined) => {
         title: '注册成功',
         message: h('info', { style: 'color: teal' }, response.data.msg),
       })
-
       router.push('/user')
     }).catch((error: AxiosError<any>) => {
       console.log(error)
