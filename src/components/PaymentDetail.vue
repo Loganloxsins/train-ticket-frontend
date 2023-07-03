@@ -46,11 +46,16 @@ let userDetail = reactive<{ data: UserInfo }>({
     idn:'',
     type:'',
     mileage_points:0,
+    member:false
   },
 })
 
 
 const change = (id: number) => {
+  if(value.value&&!userDetail.data.member){
+    router.push('/vipregister')
+    return
+  }
   if(value.value) {
     request({
       url: `/order/usePoints/${id}`,
@@ -93,7 +98,7 @@ const payByAlipay = (id: number) => {
     window.location.href=url
   }).catch((error) => {
     if (error.response?.data.code == 100003) {
-      router.push('/login')
+      router.push('/')
     }
     ElNotification({
       offset: 70,
@@ -126,6 +131,7 @@ const refreshData = () => {
     method: 'GET',
   }).then(res => {
     userDetail.data = res.data.data
+
   }).catch(err => {
     console.log(err)
   })

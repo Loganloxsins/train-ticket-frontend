@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useUserStore } from "~/stores/user";
 import { useRouter } from "vue-router";
-import { ref } from "vue";
+import {onMounted, ref} from "vue";
 import { request } from "~/utils/request";
 
 const router = useRouter()
@@ -13,6 +13,12 @@ const menuSelect = (key) => {
   index.value = key
   console.log(key);
 }
+
+onMounted(() => {
+  if (user.name === '') {
+    router.push('/')
+  }
+})
 
 </script>
 

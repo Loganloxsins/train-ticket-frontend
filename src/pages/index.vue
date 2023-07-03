@@ -5,11 +5,11 @@
       <el-card class="demo-tabs box-card" shadow="hover">
           <el-tabs v-model="activeName" class="demo-tabs">
               <el-tab-pane label="登录" name="登录">
-                  <Login />
+                  <LoginForm />
               </el-tab-pane>
 
               <el-tab-pane label="注册" name="注册">
-                  <Register />
+                  <RegisterForm />
               </el-tab-pane>
           </el-tabs>
       </el-card>
@@ -19,6 +19,8 @@
 
 <script lang="ts" setup>
 import { ref } from "vue";
+import LoginForm from "~/components/LoginForm.vue";
+import RegisterForm from "~/components/RegisterForm.vue";
 
 const activeName = ref('登录')
 </script>

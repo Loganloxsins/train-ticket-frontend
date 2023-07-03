@@ -6,7 +6,9 @@ import { useStationsStore } from "~/stores/stations";
 import { Right } from "@element-plus/icons-vue";
 import { useRouter } from "vue-router";
 import { RouteInfo } from "~/utils/interfaces";
+import {useUserStore} from "~/stores/user";
 
+const user = useUserStore()
 const router = useRouter()
 const stations = useStationsStore()
 
@@ -143,6 +145,10 @@ const filter = () => {
 }
 
 onMounted(() => {
+  if (user.name === '') {
+    router.push('/')
+    return
+  }
   refreshData()
 })
 

@@ -10,6 +10,7 @@ export const useUserStore = defineStore('user', {
             idn: '',
             phone: '',
             mileage_points:0,
+            member:false
         }
     },
     getters: {
@@ -28,11 +29,11 @@ export const useUserStore = defineStore('user', {
                 this.type = res.data.data.type;
                 this.idn = res.data.data.idn;
                 this.phone = res.data.data.phone;
-                this.mileage_points=res.data.data.mileage_points
+                this.mileage_points=res.data.data.mileage_points;
+                this.member=res.data.data.member;
             }).catch((err) => {
                 console.log(err)
             })
         }
     }
-
 })

@@ -1,17 +1,13 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import HomePage from '../pages/index.vue';
 import UserPage from '../pages/user.vue';
-import AdminPage from '../pages/admin.vue'
 import LoginPage from '../pages/login.vue';
-import RegisterPage from '../pages/register.vue';
 //import { isAuthenticated, getUserRole } from '../utils/auth';
 import SearchPage from '../pages/search.vue';
 import OrderPage from '../pages/order.vue';
 import RoutePage from '../pages/route.vue';
 import TrainPage from '../pages/train.vue';
 import StationPage from '../pages/station.vue';
-import VipregisterPage from '../pages/vipregister.vue';
-import PointPage from '../pages/point.vue';
 
 const routes: Array<RouteRecordRaw> = [
     {

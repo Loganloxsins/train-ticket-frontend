@@ -1,4 +1,17 @@
 <script lang="ts" setup>
+import {useUserStore} from "~/stores/user";
+import {onMounted} from "vue";
+import {useRouter} from "vue-router";
+
+const user = useUserStore()
+const router = useRouter()
+
+onMounted(() => {
+  if (user.name === '') {
+    router.push('/')
+  }
+})
+
 
 </script>
 

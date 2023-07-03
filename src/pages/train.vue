@@ -8,7 +8,9 @@ import TrainManageDetail from "~/components/TrainManageDetail.vue";
 import TrainManageForm from "~/components/TrainManageForm.vue";
 import { useRouter } from "vue-router";
 import { TrainInfo } from "~/utils/interfaces";
+import {useUserStore} from "~/stores/user";
 
+const user = useUserStore()
 const router = useRouter()
 const stations = useStationsStore()
 
@@ -175,12 +177,15 @@ const filter = () => {
 }
 
 onMounted(() => {
+  if (user.name === '') {
+    router.push('/')
+  }
   refreshData()
 })
 </script>
 
 <template>
-    <MenuAdmin pageIndex="/admin/train" />
+    <MenuAdmin pageIndex="/train" />
   <el-container>
     <el-header style="position: fixed; width: 100%; z-index: 999">
     

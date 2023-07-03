@@ -6,7 +6,9 @@ import { ElNotification } from "element-plus";
 import { useStationsStore } from "~/stores/stations";
 import { useRouter } from "vue-router";
 import { StationInfo } from "~/utils/interfaces";
+import {useUserStore} from "~/stores/user";
 
+const user = useUserStore()
 let stations = useStationsStore()
 let router = useRouter()
 
@@ -115,6 +117,9 @@ const filter = () => {
 }
 
 onMounted(() => {
+  if (user.name === '') {
+    router.push('/')
+  }
   stations.fetch()
   stationsFiltered.data = [...stations.rawData]
 })

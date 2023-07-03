@@ -3,8 +3,12 @@ import { h, onMounted, reactive, ref } from "vue";
 import { request } from "~/utils/request";
 import { ElNotification } from "element-plus";
 import { useSearchStore } from "~/stores/search";
-import { useRoute } from 'vue-router'
+import {useRoute, useRouter} from 'vue-router'
+import {useUserStore} from "~/stores/user";
 
+
+const user = useUserStore()
+const router = useRouter()
 const route = useRoute();
 const search = useSearchStore();
 
@@ -15,6 +19,9 @@ let loading = ref(false)
 let empty = ref(false)
 
 onMounted(() => {
+  if (user.name === '') {
+    router.push('/')
+  }
   if (route.hash == "#query") {
     submit()
   }

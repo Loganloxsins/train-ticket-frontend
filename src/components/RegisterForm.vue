@@ -136,7 +136,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
       <el-checkbox v-model="ruleForm.rick">
         <span>我已阅读并同意</span>
         <el-link type="primary" href="https://www.bilibili.com/video/BV1GJ411x7h7/"
-          target="_blank">《l23o6客户服务中心网站服务条款》</el-link>
+                 target="_blank">《l23o6客户服务中心网站服务条款》</el-link>
       </el-checkbox>
     </el-form-item>
 

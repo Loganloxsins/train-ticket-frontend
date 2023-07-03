@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import { h, reactive, ref, watch } from "vue";
+import {h, onMounted, reactive, ref, watch} from "vue";
 import { useUserStore } from "~/stores/user";
 import { ElNotification, FormInstance } from "element-plus";
 import { request } from "~/utils/request";
@@ -18,7 +18,8 @@ let form = reactive({
   type: '',
   idn: '',
   phone: '',
-  mileage_points: ''
+  mileage_points: 0,
+  member:false
 });
 
 const setForm = async () => {
@@ -28,6 +29,7 @@ const setForm = async () => {
   form.idn = user.idn;
   form.phone = user.phone;
   form.mileage_points = user.mileage_points;
+  form.member=user.member
 }
 
 watch(user, () => {
@@ -99,6 +101,11 @@ const submitForm = (formEl: FormInstance | undefined) => {
     })
   })
 }
+
+onMounted(()=>{
+  user.fetch()
+})
+
 </script>
 
 <template>
@@ -136,13 +143,18 @@ const submitForm = (formEl: FormInstance | undefined) => {
         <el-input v-model="form.phone" style="width: 25vh" :disabled="!edit" />
       </el-form-item>
       <el-form-item label="积分" prop="mileage_points">
-        <el-input v-model="form.mileage_points" style="width: 25vh" :disabled="!edit" />
+        <el-input v-model="form.mileage_points" style="width: 25vh" :disabled="true" />
       </el-form-item>
-      <el-form-item>
-        <el-button @click="$router.push('/vipregister')">
-          不是会员？点击注册
+      <el-form-item v-if="form.member===true" label="是否是会员" prop="is_member">
+        <el-text>是</el-text>
+      </el-form-item>
+      <el-form-item v-else label="是否是会员" prop="is_member">
+        <el-text>否</el-text>
+        <el-button type="primary" @click="$router.push('/vipregister')" style="margin-left: 10px" >
+          点击注册
         </el-button>
       </el-form-item>
+
     </el-form>
   </div>
 </template>

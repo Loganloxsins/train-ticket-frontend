@@ -2,19 +2,20 @@
 import { h, reactive, ref } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import { ElNotification } from "element-plus"
-import { request } from "~/utils/request"
+import { request } from "../utils/request"
 import { AxiosError, AxiosResponse } from 'axios';
-import { Lock, User } from '@element-plus/icons-vue'
-import { useUserStore } from "~/stores/user";
 import { useRouter } from "vue-router";
+import {useUserStore} from "~/stores/user";
 
 const user = useUserStore();
 const router = useRouter();
 
 const ruleFormRef = ref<FormInstance>()
+
 const ruleForm = reactive({
   username: '',
   password: '',
+  role: '',
 })
 
 const rules = reactive<FormRules>({
@@ -32,68 +33,74 @@ const rules = reactive<FormRules>({
     message: '密码未达到复杂性要求:密码必须包含大小写字母和数字',
     trigger: 'change'
   }],
+  role: [{ required: true, message: '此字段为必填项', trigger: 'change' }],
 })
 
 const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.validate((valid) => {
     if (!valid) return
+
     console.log('submit!')
+
     const r = request({
       url: '/session',
       method: 'POST',
       data: {
         username: ruleForm.username,
-        password: ruleForm.password
+        password: ruleForm.password,
       }
     })
 
     r.then((response: AxiosResponse<any>) => {
+      console.log(response)
+      user.fetch()
+      if(ruleForm.role=='passenger'){
+        router.push('/userhome')
+      }
+      else {
+        router.push('/station')
+      }
       ElNotification({
-        offset: 70,
         title: '登录成功',
         message: h('i', { style: 'color: teal' }, response.data.msg),
       })
-      user.fetch()
-      router.push('/')
+
     }).catch((error: AxiosError<any>) => {
       console.log(error)
       ElNotification({
-        offset: 70,
-        title: 'login错误',
+        title: '错误',
         message: h('i', { style: 'color: teal' }, error.response?.data.msg),
       })
     })
   })
+
 }
+
 </script>
 
 <template>
-  <el-form class="demo-ruleForm" ref="ruleFormRef" :model="ruleForm" :rules="rules">
-    <el-form-item prop="username">
-      <el-input v-model="ruleForm.username" type="text" :prefix-icon="User" placeholder="用户名" />
+  <el-form class="demo-ruleForm" ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="120px" status-icon>
+    <el-form-item label="用户名" prop="username">
+      <el-input v-model="ruleForm.username" type="text" />
     </el-form-item>
-    <el-form-item prop="password">
-      <el-input v-model="ruleForm.password" autocomplete="off" type="password" show-password :prefix-icon="Lock"
-        placeholder="密码" />
+
+    <el-form-item label="密码" prop="password">
+      <el-input v-model="ruleForm.password" autocomplete="off" type="password" show-password />
     </el-form-item>
-    <el-row justify="center">
-      <el-col :span="12" style="display: flex; justify-content: center; align-items: center">
-        <el-form-item>
-          <el-button type="primary" @click="submitForm(ruleFormRef)">
-            登录
-          </el-button>
-        </el-form-item>
-      </el-col>
-      <el-col :span="12" style="display: flex; justify-content: center; align-items: center">
-        <el-form-item>
-          <el-button @click="$router.push('/register')">
-            注册
-          </el-button>
-        </el-form-item>
-      </el-col>
-    </el-row>
+
+    <el-form-item label="身份" prop="role">
+      <el-select v-model="ruleForm.role" placeholder="请选择您的登入身份">
+      <el-option label="乘客" value="passenger"></el-option>
+      <el-option label="管理员" value="admin"></el-option>
+    </el-select>
+    </el-form-item>
+
+    <el-form-item>
+      <el-button style="margin-left: 25%" type="primary" @click="submitForm(ruleFormRef)">登录</el-button>
+    </el-form-item>
   </el-form>
 </template>
+
 
 <style scoped></style>

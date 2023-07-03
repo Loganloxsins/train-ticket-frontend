@@ -217,7 +217,9 @@ getOrderDetail()
       </el-text>
     </div>
 
-    <div v-if="orderDetail.data && orderDetail.data.status === '等待支付'" style="font-size: 16px;color: #db2828">剩余支付时间（超时自动关闭）:  {{hr}}小时 {{min}}分钟 {{sec}}秒</div>
+    <div v-if="orderDetail.data && orderDetail.data.status === '等待支付'" style="font-size: 16px;color: #db2828">
+      剩余支付时间（超时自动关闭）:  {{hr}}小时 {{min}}分钟 {{sec}}秒
+    </div>
 
     <div style="margin-bottom: 2vh">
       <el-text size="large" tag="b" type="primary">

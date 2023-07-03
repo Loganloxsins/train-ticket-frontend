@@ -1,8 +1,19 @@
 <script setup lang="ts">
 
-import { useRoute } from "vue-router";
+import {useRoute, useRouter} from "vue-router";
+import {onMounted} from "vue";
+import {useUserStore} from "~/stores/user";
 
+
+const user = useUserStore()
+const router = useRouter()
 const route = useRoute()
+
+onMounted(() => {
+  if (user.name === '') {
+    router.push('/')
+  }
+})
 
 </script>
 
@@ -16,9 +27,8 @@ const route = useRoute()
         <el-text size="large" type="primary" style="display: flex;justify-content: center">
           <h1>订单详情</h1>
         </el-text>
-        <br />
+        <br/>
       </div>
-
 
       <div style="display: flex; justify-content: center; margin-top: 5vh">
         <OrderDetail :id="typeof $route.params['orderId'] === 'string' ? parseInt($route.params['orderId']) : undefined"
