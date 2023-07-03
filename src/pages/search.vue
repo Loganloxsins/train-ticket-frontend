@@ -52,7 +52,7 @@ const submit = () => {
 
 
 <template>
-   <MenuUser pageIndex="/user/search"/>
+   <MenuUser pageIndex="/search"/>
   <el-container>
     <el-main v-loading="loading" style="height: 90vh;margin-top: 8vh">
 

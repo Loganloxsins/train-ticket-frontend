@@ -51,7 +51,7 @@ const addTrain = (train: TrainInfo) => {
     return
   }
   request({
-    url: '/admin/train',
+    url: '/train',
     method: 'POST',
     data: {
       name: train.name,

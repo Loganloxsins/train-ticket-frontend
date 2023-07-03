@@ -13,9 +13,9 @@ const menuSelect = (key: string, keyPath: string[]) => {
     <el-menu :default-active="pageIndex" mode="horizontal" class="el-menu-demo" @select="menuSelect" :router=true>
         <el-menu-item index="/">主页</el-menu-item>
         <el-menu-item index="/admin">你好管理员</el-menu-item>
-        <el-menu-item index="/admin/station">车站管理</el-menu-item>
-        <el-menu-item index="/admin/train">车次管理</el-menu-item>
-        <el-menu-item index="/admin/route">路线管理</el-menu-item>
+        <el-menu-item index="/station">车站管理</el-menu-item>
+        <el-menu-item index="/route">路线管理</el-menu-item>
+        <el-menu-item index="/train">车次管理</el-menu-item>
         <el-menu-item index="/user">切换为乘客页面</el-menu-item>
         <el-menu-item h="full" @click="toggleDark()">
             <button class="border-none w-full bg-transparent cursor-pointer" style="height: var(--el-menu-item-height)">

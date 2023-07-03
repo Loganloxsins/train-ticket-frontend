@@ -9,7 +9,7 @@ const route = useRoute()
 <template>
   <el-container>
     <el-header style="position: fixed; width: 100%; z-index: 999">
-      <MenuAdmin pageIndex="admin/order" />
+      <MenuUser pageIndex="/order" />
     </el-header>
     <el-main style="margin-top: 10vh">
       <div>

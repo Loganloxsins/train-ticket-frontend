@@ -3,7 +3,7 @@
 </script>
 
 <template>
-    <MenuUser pageIndex="/user/point" />
+    <MenuUser pageIndex="/point" />
     <el-container>
         <el-header style="position: fixed; width: 100%; z-index: 999">
         </el-header>

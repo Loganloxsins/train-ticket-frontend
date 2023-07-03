@@ -30,7 +30,7 @@ let add = ref(false)
 
 const addRoute = (route: RouteInfo) => {
   request({
-    url: '/admin/route',
+    url: '/route',
     method: 'POST',
     data: {
       name: route.name,
