@@ -4,6 +4,11 @@ import type { FormInstance, FormRules } from 'element-plus'
 import { ElNotification } from "element-plus"
 import { request } from "../utils/request"
 import { AxiosError, AxiosResponse } from 'axios';
+import { useRouter } from "vue-router";
+import {useUserStore} from "~/stores/user";
+
+const user = useUserStore();
+const router = useRouter();
 
 const ruleFormRef = ref<FormInstance>()
 
@@ -49,10 +54,17 @@ const submitForm = (formEl: FormInstance | undefined) => {
 
     r.then((response: AxiosResponse<any>) => {
       console.log(response)
+      user.fetch()
       ElNotification({
         title: '登录成功',
         message: h('i', { style: 'color: teal' }, response.data.msg),
       })
+      if(ruleForm.role=='passenger'){
+        router.push('/userhome')
+      }
+      else {
+        router.push('/station')
+      }
     }).catch((error: AxiosError<any>) => {
       console.log(error)
       ElNotification({
