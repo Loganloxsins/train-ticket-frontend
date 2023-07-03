@@ -49,10 +49,10 @@ const submitForm = (formEl: FormInstance | undefined) => {
     console.log('submit!')
 
     const r = request({
-      url: '/user',
-      method: 'POST',
+      url: '/user/vipregister',
+      method: 'PUT',
       data: {
-        password: ruleForm.vippassword,
+        vippassword: ruleForm.vippassword,
       }
     })
     r.then((response: AxiosResponse<any>) => {
@@ -88,7 +88,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
       <el-checkbox v-model="ruleForm.rick">
         <span>我已阅读并同意</span>
         <el-link type="primary" href="https://www.bilibili.com/video/BV1eX4y1i7k9/"
-          target="_blank">《l23o6会员中心网站服务条款》</el-link>
+                 target="_blank">《l23o6会员中心网站服务条款》</el-link>
       </el-checkbox>
     </el-form-item>
 
