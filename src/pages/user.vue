@@ -1,98 +1,61 @@
-<template>
-  <MenuUser pageIndex="/user"/>
-  <div class="user-page">
-      <h1>这是用户跳进来看到的</h1>
-
-      <div class="ticket-selection">
-          <h2>进入主页是看不到导航栏的，然后以用户身份登陆进来这里。</h2>
-          <div v-for="ticket in tickets" :key="ticket.id" class="ticket-card">
-              <h3>{{ ticket.name }}</h3>
-              <p>{{ ticket.description }}</p>
-              <p>Price: ${{ ticket.price }}</p>
-              <button @click="selectTicket(ticket)">Select</button>
-          </div>
-      </div>
-
-      <div v-if="selectedTicket" class="ticket-details">
-          <h2>Selected Ticket Details</h2>
-          <h3>{{ selectedTicket.name }}</h3>
-          <p>{{ selectedTicket.description }}</p>
-          <p>Price: ${{ s册electedTicket.price }}</p>
-          <button @click="purchaseTicket">Purchase</button>
-      </div>
-  </div>
-</template>
-
-<script>
+<script setup lang="ts">
+import { useUserStore } from "~/stores/user";
+import { useRouter } from "vue-router";
 import { ref } from "vue";
+import { request } from "~/utils/request";
 
-export default {
-  name: "UserPage",
-  setup() {
-      const tickets = ref([
-          {
-              id: 1,
-              name: "Standard Ticket",
-              description: "Access to standard seating area",
-              price: 20,
-          },
-          {
-              id: 2,
-              name: "VIP Ticket",
-              description: "Access to VIP seating area",
-              price: 50,
-          },
-          {
-              id: 3,
-              name: "Premium Ticket",
-              description: "Access to premium seating area",
-              price: 80,
-          },
-      ]);
+const router = useRouter()
+const user = useUserStore()
 
-      const selectedTicket = ref(null);
+let index = ref(1)
 
-      const selectTicket = (ticket) => {
-          selectedTicket.value = ticket;
-      };
+const menuSelect = (key) => {
+  index.value = key
+  console.log(key);
+}
 
-      const purchaseTicket = () => {
-          if (selectedTicket.value) {
-              // TODO: Implement ticket purchase logic
-              console.log("Ticket purchased:", selectedTicket.value);
-          }
-      };
-
-      return {
-          tickets,
-          selectedTicket,
-          selectTicket,
-          purchaseTicket,
-      };
-  },
-};
 </script>
 
-<style scoped>
-.user-page {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-  text-align: center;
-}
+<template>
+  <el-container>
+    <el-header style="position: fixed; width: 100%; z-index: 999">
+      <MenuUser pageIndex="/user" />
+    </el-header>
+    <el-container style="display: flex; align-items: center; height: 85vh">
+      <el-aside width="15%">
+        <el-menu default-active="1" class="el-menu-vertical-demo"
+                 style="height: 85vh; display: flex; flex-direction: column; justify-content: center" @select="menuSelect">
+          <el-menu-item index="1">
+            <strong>
+              个人信息
+            </strong>
+          </el-menu-item>
+          <el-menu-item index="2">
+            <strong>
+              订单信息
+            </strong>
+          </el-menu-item>
+        </el-menu>
+      </el-aside>
+      <el-main style="display: flex; justify-content: center; align-items: center">
+        <div v-show="index == 1">
+          <el-text size="large" type="primary" style="display: flex;justify-content: center">
+            <h1>个人信息</h1>
+          </el-text>
+          <br />
+          <UserInfoComponent style="width: 35vh; margin: 0 auto" />
+        </div>
 
-.ticket-card {
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 10px;
-  margin-bottom: 10px;
-}
+        <div v-show="index == 2" style="height: 85vh; margin-top: 10vh; width: 65%">
+          <el-text size="large" type="primary" style="display: flex;justify-content: center; margin-bottom: 5vh">
+            <h1>订单</h1>
+          </el-text>
+          <UserOrders />
+        </div>
+      </el-main>
+    </el-container>
 
-.ticket-details {
-  margin-top: 20px;
-}
+  </el-container>
+</template>
 
-button {
-  margin-top: 10px;
-}
-</style>
+<style scoped></style>
