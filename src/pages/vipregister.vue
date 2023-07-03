@@ -3,7 +3,7 @@
 </script>
 
 <template>
-    <MenuUser pageIndex="/user/vipregister" />
+    <MenuUser pageIndex="/vipregister" />
     <el-container>
         <el-header style="position: fixed; width: 100%; z-index: 999">
         </el-header>

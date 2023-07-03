@@ -128,7 +128,7 @@ watch(stations, () => {
 <template>
   <el-container>
     <el-header style="position: fixed; width: 100%; z-index: 999">
-      <MenuAdmin pageIndex="/admin/station" />
+      <MenuAdmin pageIndex="/station" />
     </el-header>
     <el-main style="margin-top:8vh">
       <div style="display: flex; justify-content: center">
