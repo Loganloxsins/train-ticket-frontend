@@ -172,12 +172,14 @@ const refreshData = () => {
 
     <div v-if="userDetail.data.member===false">
       <el-text>您还不是会员,不可使用积分</el-text>
+      <div class="button">
       <el-button type="primary" @click="$router.push('/vipregister')">
         <el-icon style="vertical-align: middle">
           <Star />
         </el-icon>
         <span>成为会员</span>
       </el-button>
+      </div>
     </div>
 
     <div>
@@ -204,4 +206,8 @@ const refreshData = () => {
   </el-dialog>
 </template>
 
-<style scoped></style>
+<style scoped>
+.button {
+  margin-left:50px;  
+}
+</style>
