@@ -19,7 +19,7 @@ const validateCheckPass = (rule: any, value: any, callback: any) => {
   }
 }
 
-const ruleForm = reactive({
+let ruleForm = reactive({
   username: '',
   password: '',
   checkPass: '',
@@ -90,7 +90,17 @@ const submitForm = (formEl: FormInstance | undefined) => {
         title: '注册成功',
         message: h('info', { style: 'color: teal' }, response.data.msg),
       })
-      router.push('/login')
+      ruleForm = {
+        username: '',
+        password: '',
+        checkPass: '',
+        name: '',
+        type: '身份证',
+        idn: '',
+        phone: '',
+        rick: false,
+      }
+      router.push('/')
     }).catch((error: AxiosError<any>) => {
       console.log(error)
       ElNotification({

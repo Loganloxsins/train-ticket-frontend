@@ -51,7 +51,7 @@ const addRoute = (route: RouteInfo) => {
   }).catch((error) => {
     console.log(error)
     if (error.response?.data.code == 100003) {
-      router.push('/login')
+      router.push('/')
     }
     ElNotification({
       offset: 70,
@@ -77,7 +77,7 @@ const delRoute = (id: number) => {
   }).catch((error) => {
     console.log(error)
     if (error.response?.data.code == 100003) {
-      router.push('/login')
+      router.push('/')
     }
     ElNotification({
       offset: 70,
@@ -108,7 +108,7 @@ const changeRoute = (route: RouteInfo) => {
   }).catch((error) => {
     console.log(error)
     if (error.response?.data.code == 100003) {
-      router.push('/login')
+      router.push('/')
     }
     ElNotification({
       offset: 70,
@@ -129,7 +129,7 @@ const refreshData = () => {
   }).catch((error) => {
     console.log(error)
     if (error.response?.data.code == 100003) {
-      router.push('/login')
+      router.push('/')
     }
     ElNotification({
       offset: 70,

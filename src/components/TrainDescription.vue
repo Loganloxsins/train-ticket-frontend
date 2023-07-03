@@ -27,7 +27,7 @@ let dialog = ref(false)
 const handleOrder = () => {
   dialog.value = true
   if (user.name === '') {
-    router.push('/login')
+    router.push('/')
   }
 }
 </script>

@@ -119,6 +119,7 @@ const filter = () => {
 onMounted(() => {
   if (user.name === '') {
     router.push('/')
+    return
   }
   stations.fetch()
   stationsFiltered.data = [...stations.rawData]

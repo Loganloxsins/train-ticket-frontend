@@ -91,7 +91,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
     }).catch((error: AxiosError<any>) => {
       console.log(error)
       if (error.response?.data.code == 100003) {
-        router.push('/login')
+        router.push('/')
       }
       ElNotification({
         offset: 70,

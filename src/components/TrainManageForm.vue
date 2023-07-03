@@ -45,7 +45,7 @@ const getRoutes = () => {
     routes.value = res.data.data
   }).catch((error) => {
     if (error.response?.data.code == 100003) {
-      router.push('/login')
+      router.push('/')
     }
     ElNotification({
       offset: 70,
@@ -70,7 +70,7 @@ const getRoute = () => {
     route.station_ids = res.data.data.station_ids
   }).catch((error) => {
     if (error.response?.data.code == 100003) {
-      router.push('/login')
+      router.push('/')
     }
     ElNotification({
       offset: 70,

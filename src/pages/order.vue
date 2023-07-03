@@ -12,6 +12,7 @@ const route = useRoute()
 onMounted(() => {
   if (user.name === '') {
     router.push('/')
+    return
   }
 })
 

@@ -179,6 +179,7 @@ const filter = () => {
 onMounted(() => {
   if (user.name === '') {
     router.push('/')
+    return
   }
   refreshData()
 })

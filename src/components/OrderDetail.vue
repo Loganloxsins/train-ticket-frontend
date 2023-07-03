@@ -50,7 +50,7 @@ const getOrderDetail = () => {
   }).catch(err => {
     console.log(err)
     if (err.response?.data.code == 100003) {
-      router.push('/login')
+      router.push('/')
     }
     ElNotification({
       offset: 70,
@@ -98,7 +98,7 @@ const pay = (id: number) => {
     console.log(res)
   }).catch((error) => {
     if (error.response?.data.code == 100003) {
-      router.push('/login')
+      router.push('/')
     }
     ElNotification({
       offset: 70,
@@ -126,7 +126,7 @@ const cancel = (id: number) => {
     console.log(res)
   }).catch((error) => {
     if (error.response?.data.code == 100003) {
-      router.push('/login')
+      router.push('/')
     }
     ElNotification({
       offset: 70,

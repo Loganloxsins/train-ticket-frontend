@@ -35,6 +35,7 @@ const logout = () => {
       title: 'logout错误',
       message: h('error', { style: 'color: teal' }, error.response?.data.msg),
     })
+    router.push('/')
   });
 }
 

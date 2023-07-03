@@ -94,7 +94,7 @@ const submitOrderForm = (formEl: FormInstance | undefined) => {
       console.log(error)
       console.log()
       if (error.response?.data.code == 100003) {
-        router.push('/login')
+        router.push('/')
       }
       ElNotification({
         offset: 70,

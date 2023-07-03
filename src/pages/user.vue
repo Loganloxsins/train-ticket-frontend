@@ -17,6 +17,7 @@ const menuSelect = (key) => {
 onMounted(() => {
   if (user.name === '') {
     router.push('/')
+    return
   }
 })
 
