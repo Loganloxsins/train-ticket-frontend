@@ -79,6 +79,33 @@ const change = (id: number) => {
   }
 }
 
+const payByAlipay = (id: number) => {
+  request({
+    url: `/order/${id}`,
+    method: 'PATCH',
+    data: {
+      status: '已支付',
+      type:'支付宝支付'
+    }
+  }).then((res) => {
+    console.log(res.data.data)
+    let url=res.data.data
+    window.location.href=url
+  }).catch((error) => {
+    if (error.response?.data.code == 100003) {
+      router.push('/login')
+    }
+    ElNotification({
+      offset: 70,
+      title: '支付失败',
+      message: h('error', { style: 'color: teal' }, error.response?.data.msg),
+    })
+    console.log(error)
+  })
+
+
+}
+
 onMounted(() => {
   refreshData()
 })
@@ -144,7 +171,7 @@ const refreshData = () => {
     </el-switch>
 
     <div style="margin-bottom: 2vh;">
-      <el-button style="float:left">
+      <el-button style="float:left" @click="payByAlipay(id ?? -1)">
         支付宝支付
       </el-button>
       <el-button style="float:left">
