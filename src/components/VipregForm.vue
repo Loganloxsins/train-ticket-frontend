@@ -13,7 +13,7 @@ const ruleFormRef = ref<FormInstance>()
 const validateCheckVipPass = (rule: any, value: any, callback: any) => {
   if (ruleForm.vippassword === '') return
   if (value !== ruleForm.vippassword) {
-    callback(new Error("会员密码不一致"))
+    callback(new Error("两次密码不一致"))
   } else {
     callback()
   }
@@ -26,14 +26,10 @@ const ruleForm = reactive({
 })
 
 const rules = reactive<FormRules>({
-  vippassword: [{ required: true, message: '此字段为必填项', trigger: 'change' }, {
-    min: 8, max: 56, message: '密码长度不符合要求(8-56)', trigger: 'change'
-  }, {
-    pattern: /^[\x21-\x7e]*$/, message: '密码只能包含字母,数字和符号', trigger: 'change'
-  }, {
-    pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).*$/,
-    message: '密码未达到复杂性要求:密码必须包含大小写字母和数字',
-    trigger: 'change'
+  vippassword: [{ required: true, message: '此字段为必填项', trigger: 'change' },{
+    pattern: /^[0-9]*$/, message: '密码只能包含数字', trigger: 'change'
+  },{
+    min: 6, max: 6, message: '密码长度不符合要求(6位)', trigger: 'change'
   }],
   checkVipPass: [{ required: true, message: '此字段为必填项', trigger: 'change' }, {
     validator: validateCheckVipPass,
@@ -61,7 +57,8 @@ const submitForm = (formEl: FormInstance | undefined) => {
         title: '注册成功',
         message: h('info', { style: 'color: teal' }, response.data.msg),
       })
-      router.push('/login')
+
+      router.push('/user')
     }).catch((error: AxiosError<any>) => {
       console.log(error)
       ElNotification({
@@ -78,11 +75,11 @@ const submitForm = (formEl: FormInstance | undefined) => {
 
 <template>
   <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" class="demo-ruleForm" label-width="120px">
-    <el-form-item label="请输入会员密码" prop="vippassword">
-      <el-input v-model="ruleForm.vippassword" autocomplete="off" type="password" />
+    <el-form-item label="设置交易密码" prop="vippassword">
+      <el-input v-model="ruleForm.vippassword" autocomplete="off" type="password" placeholder="请输入6位数字密码" />
     </el-form-item>
-    <el-form-item label="请确认会员密码" prop="checkVipPass">
-      <el-input v-model="ruleForm.checkVipPass" autocomplete="off" type="password" />
+    <el-form-item label="确认交易密码" prop="checkVipPass">
+      <el-input v-model="ruleForm.checkVipPass" autocomplete="off" type="password" placeholder="再次输入交易密码" />
     </el-form-item>
     <el-form-item prop="rick">
       <el-checkbox v-model="ruleForm.rick">
