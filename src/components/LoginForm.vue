@@ -51,6 +51,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
       data: {
         username: ruleForm.username,
         password: ruleForm.password,
+        role:ruleForm.role
       }
     })
 
