@@ -19,6 +19,7 @@
 
 <script lang="ts" setup>
 import { ref } from "vue";
+import {Search} from "@element-plus/icons-vue";
 
 const activeName = ref('登录')
 </script>

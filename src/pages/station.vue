@@ -2,7 +2,7 @@
 
 import { h, onMounted, reactive, ref, watch } from "vue";
 import { request } from "~/utils/request";
-import { ElNotification } from "element-plus";
+import {ElMessage, ElNotification} from "element-plus";
 import { useStationsStore } from "~/stores/stations";
 import { useRouter } from "vue-router";
 import { StationInfo } from "~/utils/interfaces";
@@ -119,6 +119,7 @@ const filter = () => {
 onMounted(() => {
   if (user.name === '') {
     router.push('/')
+    ElMessage("请先登录")
     return
   }
   stations.fetch()

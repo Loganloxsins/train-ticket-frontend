@@ -3,6 +3,7 @@
 import {useRoute, useRouter} from "vue-router";
 import {onMounted} from "vue";
 import {useUserStore} from "~/stores/user";
+import {ElMessage} from "element-plus";
 
 
 const user = useUserStore()
@@ -12,6 +13,7 @@ const route = useRoute()
 onMounted(() => {
   if (user.name === '') {
     router.push('/')
+    ElMessage("请先登录")
     return
   }
 })

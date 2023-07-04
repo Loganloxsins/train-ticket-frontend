@@ -54,8 +54,8 @@ const logout = () => {
             </button>
         </el-menu-item>
         <div class="flex-grow" />
-        <el-menu-item index="/login" v-if="user.username === ''">登录</el-menu-item>
-        <el-menu-item index="/register" v-if="user.username === ''">注册</el-menu-item>
+        <el-menu-item index="/" v-if="user.username === ''">登录</el-menu-item>
+        <el-menu-item index="/" v-if="user.username === ''">注册</el-menu-item>
         <el-menu-item index="/user" v-if="user.username !== ''">用户中心</el-menu-item>
         <el-menu-item @click="logout" v-if="user.username !== ''">登出</el-menu-item>
     </el-menu>

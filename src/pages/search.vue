@@ -19,10 +19,6 @@ let loading = ref(false)
 let empty = ref(false)
 
 onMounted(() => {
-  if (user.name === '') {
-    router.push('/')
-    return
-  }
   if (route.hash == "#query") {
     submit()
   }

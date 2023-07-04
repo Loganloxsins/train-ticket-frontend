@@ -53,7 +53,7 @@ const addTrain = (train: TrainInfo) => {
     return
   }
   request({
-    url: '/train',
+    url: '/admin/train',
     method: 'POST',
     data: {
       name: train.name,
@@ -77,7 +77,7 @@ const addTrain = (train: TrainInfo) => {
   }).catch((error) => {
     console.log(error)
     if (error.response?.data.code == 100003) {
-      router.push('/login')
+      router.push('/')
     }
     ElNotification({
       offset: 70,
@@ -103,7 +103,7 @@ const delTrain = (id: number) => {
   }).catch((error) => {
     console.log(error)
     if (error.response?.data.code == 100003) {
-      router.push('/login')
+      router.push('/')
     }
     ElNotification({
       offset: 70,
@@ -179,6 +179,7 @@ const filter = () => {
 onMounted(() => {
   if (user.name === '') {
     router.push('/')
+    ElMessage("请先登录")
     return
   }
   refreshData()

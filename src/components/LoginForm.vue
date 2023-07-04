@@ -1,11 +1,12 @@
 <script lang="ts" setup>
-import { h, reactive, ref } from 'vue'
+import {h, onMounted, reactive, ref} from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import { ElNotification } from "element-plus"
 import { request } from "../utils/request"
 import { AxiosError, AxiosResponse } from 'axios';
 import { useRouter } from "vue-router";
 import {useUserStore} from "~/stores/user";
+import {Search, User} from "@element-plus/icons-vue";
 
 const user = useUserStore();
 const router = useRouter();
@@ -36,6 +37,7 @@ const rules = reactive<FormRules>({
   role: [{ required: true, message: '此字段为必填项', trigger: 'change' }],
 })
 
+
 const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.validate((valid) => {
@@ -53,19 +55,25 @@ const submitForm = (formEl: FormInstance | undefined) => {
     })
 
     r.then((response: AxiosResponse<any>) => {
-      console.log(response)
-      if(ruleForm.role=='passenger'){
+      // console.log(response)
+      if(ruleForm.role==='passenger'){
         router.push('/userhome')
+        console.log(ruleForm.role)
+        ElNotification({
+          title: '登录成功',
+          message: h('i', { style: 'color: teal' }, response.data.msg),
+        })
+        user.fetch()
       }
       else {
         router.push('/station')
+        console.log(ruleForm.role)
+        ElNotification({
+          title: '登录成功',
+          message: h('i', { style: 'color: teal' }, response.data.msg),
+        })
+        user.fetch()
       }
-      user.fetch()
-      ElNotification({
-        title: '登录成功',
-        message: h('i', { style: 'color: teal' }, response.data.msg),
-      })
-
     }).catch((error: AxiosError<any>) => {
       console.log(error)
       ElNotification({
@@ -98,6 +106,12 @@ const submitForm = (formEl: FormInstance | undefined) => {
 
     <el-form-item>
       <el-button style="margin-left: 25%" type="primary" @click="submitForm(ruleFormRef)">登录</el-button>
+      <el-button style="margin-left: 60px" @click="$router.push('/userhome')">
+        <el-icon style="vertical-align: middle">
+          <User />
+        </el-icon>
+        <span>访客身份进入</span>
+      </el-button>
     </el-form-item>
   </el-form>
 </template>

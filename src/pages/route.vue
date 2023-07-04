@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { h, onMounted, reactive, ref } from "vue";
 import { request } from "~/utils/request";
-import { ElNotification } from "element-plus";
+import {ElMessage, ElNotification} from "element-plus";
 import { useStationsStore } from "~/stores/stations";
 import { Right } from "@element-plus/icons-vue";
 import { useRouter } from "vue-router";
@@ -32,7 +32,7 @@ let add = ref(false)
 
 const addRoute = (route: RouteInfo) => {
   request({
-    url: '/route',
+    url: '/admin/route',
     method: 'POST',
     data: {
       name: route.name,
@@ -51,7 +51,7 @@ const addRoute = (route: RouteInfo) => {
   }).catch((error) => {
     console.log(error)
     if (error.response?.data.code == 100003) {
-      router.push('/')
+      router.push('/login')
     }
     ElNotification({
       offset: 70,
@@ -147,6 +147,7 @@ const filter = () => {
 onMounted(() => {
   if (user.name === '') {
     router.push('/')
+    ElMessage("请先登录")
     return
   }
   refreshData()

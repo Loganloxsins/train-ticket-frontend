@@ -6,13 +6,6 @@ import {useRouter} from "vue-router";
 const user = useUserStore()
 const router = useRouter()
 
-onMounted(() => {
-  if (user.name === '') {
-    router.push('/')
-    return
-  }
-})
-
 
 </script>
 

@@ -3,6 +3,7 @@ import { useUserStore } from "~/stores/user";
 import { useRouter } from "vue-router";
 import {onMounted, ref} from "vue";
 import { request } from "~/utils/request";
+import {ElMessage} from "element-plus";
 
 const router = useRouter()
 const user = useUserStore()
@@ -17,6 +18,7 @@ const menuSelect = (key) => {
 onMounted(() => {
   if (user.name === '') {
     router.push('/')
+    ElMessage("请先登录")
     return
   }
 })

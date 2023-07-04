@@ -6,6 +6,7 @@ import { calDuration, parseDate } from "~/utils/date";
 import { useUserStore } from "~/stores/user";
 import { useRouter } from "vue-router";
 import { TicketInfo } from "~/utils/interfaces";
+import {ElMessage} from "element-plus";
 
 const props = defineProps({
   id: Number,
@@ -28,6 +29,7 @@ const handleOrder = () => {
   dialog.value = true
   if (user.name === '') {
     router.push('/')
+    ElMessage("请先登录")
   }
 }
 </script>
