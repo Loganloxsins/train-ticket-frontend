@@ -56,6 +56,7 @@ interface UserInfo{
   idn:string,
   type:string,
   mileage_points:number,
-  member:boolean
+  member:boolean,
+  role:string
 }
 export { OrderDetailData, TicketInfo, RouteInfo, StationInfo, TrainInfo,TrainDetailInfo, UserInfo }

@@ -55,25 +55,19 @@ const submitForm = (formEl: FormInstance | undefined) => {
     })
 
     r.then((response: AxiosResponse<any>) => {
-      // console.log(response)
-      if(ruleForm.role==='passenger'){
+      ElNotification({
+        offset: 70,
+        title: '登录成功',
+        message: h('i', { style: 'color: teal' }, response.data.msg),
+      })
+      user.fetch()
+      if(ruleForm.role=='passenger'){
         router.push('/userhome')
-        console.log(ruleForm.role)
-        ElNotification({
-          title: '登录成功',
-          message: h('i', { style: 'color: teal' }, response.data.msg),
-        })
-        user.fetch()
       }
       else {
         router.push('/station')
-        console.log(ruleForm.role)
-        ElNotification({
-          title: '登录成功',
-          message: h('i', { style: 'color: teal' }, response.data.msg),
-        })
-        user.fetch()
       }
+
     }).catch((error: AxiosError<any>) => {
       console.log(error)
       ElNotification({
@@ -82,7 +76,6 @@ const submitForm = (formEl: FormInstance | undefined) => {
       })
     })
   })
-
 }
 
 </script>

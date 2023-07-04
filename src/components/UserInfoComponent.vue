@@ -19,7 +19,8 @@ let form = reactive({
   idn: '',
   phone: '',
   mileage_points: 0,
-  member:false
+  member:false,
+  role:''
 });
 
 const setForm = async () => {
@@ -30,6 +31,7 @@ const setForm = async () => {
   form.phone = user.phone;
   form.mileage_points = user.mileage_points;
   form.member=user.member
+  form.role=user.role
 }
 
 watch(user, () => {
@@ -142,18 +144,21 @@ onMounted(()=>{
       <el-form-item label="手机号" prop="phone">
         <el-input v-model="form.phone" style="width: 25vh" :disabled="!edit" />
       </el-form-item>
-      <el-form-item label="积分" prop="mileage_points">
-        <el-input v-model="form.mileage_points" style="width: 25vh" :disabled="true" />
-      </el-form-item>
-      <el-form-item v-if="form.member===true" label="是否是会员" prop="is_member">
-        <el-text>是</el-text>
-      </el-form-item>
-      <el-form-item v-else label="是否是会员" prop="is_member">
-        <el-text>否</el-text>
-        <el-button type="primary" @click="$router.push('/vipregister')" style="margin-left: 10px" >
-          点击注册
-        </el-button>
-      </el-form-item>
+
+      <div v-if="user.role==='passenger'">
+        <el-form-item label="积分" prop="mileage_points">
+          <el-input v-model="form.mileage_points" style="width: 25vh" :disabled="true" />
+        </el-form-item>
+        <el-form-item v-if="form.member===true" label="是否是会员" prop="is_member">
+          <el-text>是</el-text>
+        </el-form-item>
+        <el-form-item v-else label="是否是会员" prop="is_member">
+          <el-text>否</el-text>
+          <el-button type="primary" @click="$router.push('/vipregister')" style="margin-left: 10px" >
+            点击注册
+          </el-button>
+        </el-form-item>
+      </div>
 
     </el-form>
   </div>

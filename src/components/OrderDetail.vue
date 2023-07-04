@@ -81,33 +81,33 @@ const getTrain = () => {
 }
 
 
-const pay = (id: number) => {
-  request({
-    url: `/order/${id}`,
-    method: 'PATCH',
-    data: {
-      status: '已支付'
-    }
-  }).then((res) => {
-    ElNotification({
-      offset: 70,
-      title: '支付成功',
-      message: h('success', { style: 'color: teal' }, res.data.msg),
-    })
-    getOrderDetail()
-    console.log(res)
-  }).catch((error) => {
-    if (error.response?.data.code == 100003) {
-      router.push('/')
-    }
-    ElNotification({
-      offset: 70,
-      title: '支付失败',
-      message: h('error', { style: 'color: teal' }, error.response?.data.msg),
-    })
-    console.log(error)
-  })
-}
+// const pay = (id: number) => {
+//   request({
+//     url: `/order/${id}`,
+//     method: 'PATCH',
+//     data: {
+//       status: '已支付'
+//     }
+//   }).then((res) => {
+//     ElNotification({
+//       offset: 70,
+//       title: '支付成功',
+//       message: h('success', { style: 'color: teal' }, res.data.msg),
+//     })
+//     getOrderDetail()
+//     console.log(res)
+//   }).catch((error) => {
+//     if (error.response?.data.code == 100003) {
+//       router.push('/')
+//     }
+//     ElNotification({
+//       offset: 70,
+//       title: '支付失败',
+//       message: h('error', { style: 'color: teal' }, error.response?.data.msg),
+//     })
+//     console.log(error)
+//   })
+// }
 
 const cancel = (id: number) => {
   request({
@@ -142,12 +142,12 @@ const countdown = () => {
 
   const y = dt.getFullYear()
   const m = (dt.getMonth() + 1 + '').padStart(2, '0')
-  const d = (dt.getDate() + '').padStart(2, '0')
+  const d = (dt.getDate() + 1 + '').padStart(2, '0')
   const hh = (dt.getHours() + '').padStart(2, '0')
   const mm = (dt.getMinutes() + '').padStart(2, '0')
   const ss = (dt.getSeconds() + '').padStart(2, '0')
 
-  const end = Date.parse((new Date(`${y}-${m}-${d+1} ${hh}:${mm}:${ss}`)).toString())
+  const end = Date.parse((new Date(`${y}-${m}-${d} ${hh}:${mm}:${ss}`)).toString())
   const now = Date.parse((new Date().toString()))
   const msec = end - now
 

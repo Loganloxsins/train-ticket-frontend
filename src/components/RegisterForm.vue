@@ -28,6 +28,7 @@ let ruleForm = reactive({
   idn: '',
   phone: '',
   rick: false,
+  role:''
 })
 
 const rules = reactive<FormRules>({
@@ -63,6 +64,7 @@ const rules = reactive<FormRules>({
   phone: [{ required: true, message: '此字段为必填项', trigger: 'change' }, {
     pattern: /^1[3456789]\d{9}$/, message: '手机号码不符合要求', trigger: 'change'
   }],
+  role: [{ required: true, message: '此字段为必填项', trigger: 'change' }],
 })
 
 const submitForm = (formEl: FormInstance | undefined) => {
@@ -82,6 +84,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
         type: ruleForm.type,
         idn: ruleForm.idn,
         phone: ruleForm.phone,
+        role:ruleForm.role
       }
     })
     r.then((response: AxiosResponse<any>) => {
@@ -90,17 +93,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
         title: '注册成功',
         message: h('info', { style: 'color: teal' }, response.data.msg),
       })
-      ruleForm = {
-        username: '',
-        password: '',
-        checkPass: '',
-        name: '',
-        type: '身份证',
-        idn: '',
-        phone: '',
-        rick: false,
-      }
-      router.push('/')
+
     }).catch((error: AxiosError<any>) => {
       console.log(error)
       ElNotification({
@@ -141,6 +134,12 @@ const submitForm = (formEl: FormInstance | undefined) => {
     </el-form-item>
     <el-form-item label="手机号" prop="phone">
       <el-input v-model="ruleForm.phone" />
+    </el-form-item>
+    <el-form-item label="身份" prop="role">
+      <el-select v-model="ruleForm.role" placeholder="请选择您的身份">
+        <el-option label="乘客" value="passenger"></el-option>
+        <el-option label="管理员" value="admin"></el-option>
+      </el-select>
     </el-form-item>
     <el-form-item prop="rick">
       <div class="read-container">

@@ -47,7 +47,8 @@ let userDetail = reactive<{ data: UserInfo }>({
     idn:'',
     type:'',
     mileage_points:0,
-    member:false
+    member:false,
+    role:''
   },
 })
 
@@ -132,7 +133,6 @@ const refreshData = () => {
     method: 'GET',
   }).then(res => {
     userDetail.data = res.data.data
-
   }).catch(err => {
     console.log(err)
   })
