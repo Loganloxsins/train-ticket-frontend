@@ -265,7 +265,7 @@ getOrderDetail()
         </el-button>
       </div>
     </div>
-    <div v-else-if="orderDetail.data && orderDetail.data.status === '已支付'" style="margin-top: 2vh">
+    <div v-else-if="orderDetail.data && orderDetail.data.status === '已完成'" style="margin-top: 2vh">
       <div style="float:right;">
         <el-button @click="cancel(id ?? -1)">
           取消订单

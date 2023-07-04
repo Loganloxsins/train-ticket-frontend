@@ -7,7 +7,19 @@ import { AxiosError, AxiosResponse } from 'axios';
 import { useRouter } from "vue-router";
 import {useUserStore} from "~/stores/user";
 import {Search, User} from "@element-plus/icons-vue";
+import { mapState,mapGetters,mapMutations,mapActions } from "vuex";
 
+// const state = {
+//   userInfo: JSON.parse(localStorage.getItem("userInfo")) || {},//先去localStorage中获取数据
+// }
+// const mutations = {
+//   setuserInfo(state, v) {
+//     localStorage.setItem('userInfo', JSON.stringify(v));//将传递的数据先保存到localStorage中
+//     state.userInfo = v;// 之后才是修改state中的状态
+//   },
+// }
+
+// const info= useUserInfoStore;
 const user = useUserStore();
 const router = useRouter();
 
@@ -56,18 +68,28 @@ const submitForm = (formEl: FormInstance | undefined) => {
     })
 
     r.then((response: AxiosResponse<any>) => {
+      // while(user.username=='') user.fetch()
+
+      user.fetch()
+      console.log(1)
       ElNotification({
         offset: 70,
         title: '登录成功',
         message: h('i', { style: 'color: teal' }, response.data.msg),
       })
-      user.fetch()
+      if(ruleForm.role=='admin') {
+        // user.fetch()
+        console.log(2)
+        console.log(user.name)
+        router.push('/search')
+      }
       if(ruleForm.role=='passenger'){
+        // user.fetch()
         router.push('/userhome')
       }
-      else {
-        router.push('/station')
-      }
+
+
+
 
     }).catch((error: AxiosError<any>) => {
       console.log(error)

@@ -71,7 +71,7 @@ const handleOrder = () => {
       <el-button @click="drawer = true">
         查看详情
       </el-button>
-      <el-button type="primary" @click="handleOrder">
+      <el-button v-if="user.role==='passenger'" type="primary" @click="handleOrder">
         购买
       </el-button>
     </div>

@@ -15,7 +15,8 @@
     "vite-plugin-style-import": "^2.0.0",
     "vue": "^3.2.47",
     "vue-draggable-plus": "^0.2.0-beta.1",
-    "vue-router": "^4.1.6"
+    "vue-router": "^4.1.6",
+    "vuex": "^4.1.0"
   },
   "devDependencies": {
     "@iconify-json/ep": "^1.1.10",

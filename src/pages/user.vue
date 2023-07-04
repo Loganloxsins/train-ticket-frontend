@@ -29,7 +29,8 @@ onMounted(() => {
 <template>
   <el-container>
     <el-header style="position: fixed; width: 100%; z-index: 999">
-      <MenuUser pageIndex="/user" />
+      <MenuUser v-if="user.role==='passenger'" pageIndex="/user" />
+      <MenuAdmin v-else pageIndex="/user" />
     </el-header>
     <el-container style="display: flex; align-items: center; height: 85vh">
       <el-aside width="15%">

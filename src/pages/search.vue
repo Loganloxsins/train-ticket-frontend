@@ -56,7 +56,8 @@ const submit = () => {
 
 
 <template>
-   <MenuUser pageIndex="/search"/>
+   <MenuUser v-if="user.role==='passenger'" pageIndex="/search"/>
+   <MenuAdmin v-else pageIndex="/search"/>
   <el-container>
     <el-main v-loading="loading" style="height: 90vh;margin-top: 8vh">
 

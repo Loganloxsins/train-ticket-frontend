@@ -45,6 +45,7 @@ const logout = () => {
 
 <template>
     <el-menu :default-active="pageIndex" mode="horizontal" class="el-menu-demo" @select="menuSelect" :router=true>
+        <el-menu-item index="/search">车票查询</el-menu-item>
         <el-menu-item index="/station">车站管理</el-menu-item>
         <el-menu-item index="/route">路线管理</el-menu-item>
         <el-menu-item index="/train">车次管理</el-menu-item>
