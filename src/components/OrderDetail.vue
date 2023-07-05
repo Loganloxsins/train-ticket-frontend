@@ -20,6 +20,7 @@ let day=ref(0)
 let hr=ref(0)
 let min=ref(0)
 let sec=ref(0)
+let hasDepart=ref(false)
 
 let orderDetail = reactive<{ data: OrderDetailData }>({
   data: {
@@ -119,7 +120,7 @@ const cancel = (id: number) => {
   }).then((res) => {
     ElNotification({
       offset: 70,
-      title: '取消成功',
+      title: '订单已取消',
       message: h('success', { style: 'color: teal' }, res.data.msg),
     })
     getOrderDetail()
@@ -149,10 +150,17 @@ const countdown = () => {
 
   const end = Date.parse((new Date(`${y}-${m}-${d} ${hh}:${mm}:${ss}`)).toString())
   const now = Date.parse((new Date().toString()))
+  const depart = Date.parse(new Date(orderDetail.data.departure_time).toString())
   const msec = end - now
+  const diff = depart-now
+  let diff_min=diff / 1000 / 60 % 60
+  if(diff_min<=0){
+    hasDepart.value=true
+  }
 
-  if(msec==0){
+  if(orderDetail.data.status==='等待支付'&&(msec<=0||diff_min<=30)){
     cancel(props.id ?? -1)
+    return;
   }
   if(msec<0) return;
 
@@ -160,6 +168,13 @@ const countdown = () => {
   hr.value = parseInt(String(msec / 1000 / 60 / 60 % 24))
   min.value = parseInt(String(msec / 1000 / 60 % 60))
   sec.value = parseInt(String(msec / 1000 % 60))
+
+  if(isNaN(day.value)||isNaN(hr.value)||isNaN(min.value)||isNaN(sec.value)){
+    day.value=0
+    hr.value=0
+    min.value=0
+    sec.value=0
+  }
 
   setTimeout(function () {
     countdown()
@@ -265,9 +280,9 @@ getOrderDetail()
         </el-button>
       </div>
     </div>
-    <div v-else-if="orderDetail.data && orderDetail.data.status === '已完成'" style="margin-top: 2vh">
+    <div v-else-if="orderDetail.data && orderDetail.data.status === '已完成'&&hasDepart!==true" style="margin-top: 2vh">
       <div style="float:right;">
-        <el-button @click="cancel(id ?? -1)">
+        <el-button type="danger" @click="cancel(id ?? -1)">
           取消订单
         </el-button>
       </div>
@@ -279,10 +294,5 @@ getOrderDetail()
 </template>
 
 <style scoped>
-
-/*.el-dialog{*/
-/*  width: 30%;*/
-/*!*overflow: auto;*!*/
-/*}*/
 
 </style>
