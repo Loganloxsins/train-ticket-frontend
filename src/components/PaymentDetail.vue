@@ -8,6 +8,7 @@ import { useRouter } from "vue-router";
 import {OrderDetailData, UserInfo} from "~/utils/interfaces";
 import {useUserStore} from "~/stores/user";
 import {Plus, Search, Star} from "@element-plus/icons-vue";
+import WechatPay from "~/components/WechatPay.vue";
 
 const router = useRouter()
 const stations = useStationsStore()
@@ -19,6 +20,7 @@ const props = defineProps({
 let dialog = ref(false)
 let value = ref(false)
 let newPrice = ref(0)
+let code=ref(false)
 
 let train = reactive<{ data: { name?: string } }>({
   data: {}
@@ -109,8 +111,34 @@ const payByAlipay = (id: number) => {
     })
     console.log(error)
   })
+}
 
+const changeCode = () =>{
+  code.value=true
+}
 
+const wechatPay = (id: number) => {
+  request({
+    url: `/order/${id}`,
+    method: 'PATCH',
+    data: {
+      status: '已支付',
+      type:'微信支付'
+    }
+  }).then((res) => {
+    console.log(res)
+    router.push('/search')
+  }).catch((error) => {
+    if (error.response?.data.code == 100003) {
+      router.push('/')
+    }
+    ElNotification({
+      offset: 70,
+      title: '支付失败',
+      message: h('error', { style: 'color: teal' }, error.response?.data.msg),
+    })
+    console.log(error)
+  })
 }
 
 onMounted(() => {
@@ -153,7 +181,7 @@ const refreshData = () => {
       </el-text>
     </div>
 
-    <div>
+    <div style="margin-top: 20px">
       <el-text size="large" tag="b" type="primary">
         您现在的积分数：
       </el-text>
@@ -162,27 +190,27 @@ const refreshData = () => {
       </el-text>
     </div>
 
-    <div>
-    <el-switch
-        v-model="value"
-        active-text="使用积分"
-        inactive-text="不使用积分" @click="change(id ?? -1)">
-    </el-switch>
+    <div style="margin-top: 20px">
+      <el-switch
+          v-model="value"
+          active-text="使用积分"
+          inactive-text="不使用积分" @click="change(id ?? -1)">
+      </el-switch>
+      <el-text v-if="userDetail.data.member===false" style="color: #db2828; margin-left: 10px">
+        您还不是会员,不可使用积分
+      </el-text>
     </div>
 
     <div v-if="userDetail.data.member===false">
-      <el-text>您还不是会员,不可使用积分</el-text>
-      <div class="button">
       <el-button type="primary" @click="$router.push('/vipregister')">
         <el-icon style="vertical-align: middle">
           <Star />
         </el-icon>
         <span>成为会员</span>
       </el-button>
-      </div>
     </div>
 
-    <div>
+    <div style="margin-top: 20px">
       <el-text size="large" tag="b" type="primary">
         订单总价:
       </el-text>
@@ -191,23 +219,31 @@ const refreshData = () => {
       </el-text>
     </div>
 
-    <div style="margin-bottom: 2vh;">
-      <el-button style="float:left" @click="payByAlipay(id ?? -1)">
+    <div v-if="code===true" style="margin-top: 20px">
+      <img src="public/wechatpay.jpg" alt="微信支付" style="width: 350px">
+    </div>
+
+    <div v-if="code!==true" style="margin-bottom: 2vh; margin-top: 20px">
+      <el-button style="margin-left:50px" @click="payByAlipay(id ?? -1)">
         支付宝支付
       </el-button>
-      <el-button style="float:left">
+      <el-button style="margin-left:80px" @click="changeCode">
         微信支付
       </el-button>
     </div>
+    <div v-else>
+      <el-button style="margin-left:145px" @click="wechatPay(id ?? -1)">
+        完成
+      </el-button>
+    </div>
+
+
 
   </div>
-  <el-dialog destroy-on-close v-model="dialog" title="订单详情" width="50%">
-    <PaymentDetail :id="id" />
-  </el-dialog>
 </template>
 
 <style scoped>
-.button {
-  margin-left:50px;  
-}
+/*.button {*/
+/*  margin-left:50px;  */
+/*}*/
 </style>

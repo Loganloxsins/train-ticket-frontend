@@ -273,9 +273,16 @@ getOrderDetail()
       </div>
     </div>
   </div>
-  <el-dialog destroy-on-close v-model="dialog" title="订单详情" width="50%">
+  <el-dialog destroy-on-close v-model="dialog" title="支付详情" width="40%">
     <PaymentDetail :id="id" />
   </el-dialog>
 </template>
 
-<style scoped></style>
+<style scoped>
+
+/*.el-dialog{*/
+/*  width: 30%;*/
+/*!*overflow: auto;*!*/
+/*}*/
+
+</style>

@@ -68,23 +68,16 @@ const submitForm = (formEl: FormInstance | undefined) => {
     })
 
     r.then((response: AxiosResponse<any>) => {
-      // while(user.username=='') user.fetch()
-
       user.fetch()
-      console.log(1)
       ElNotification({
         offset: 70,
         title: '登录成功',
         message: h('i', { style: 'color: teal' }, response.data.msg),
       })
       if(ruleForm.role=='admin') {
-        // user.fetch()
-        console.log(2)
-        console.log(user.name)
         router.push('/search')
       }
-      if(ruleForm.role=='passenger'){
-        // user.fetch()
+      else if(ruleForm.role=='passenger'){
         router.push('/userhome')
       }
 

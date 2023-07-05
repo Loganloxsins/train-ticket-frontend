@@ -64,6 +64,7 @@ declare module '@vue/runtime-core' {
     UserOrders: typeof import('./components/UserOrders.vue')['default']
     ViploginForm: typeof import('./components/ViploginForm.vue')['default']
     VipregForm: typeof import('./components/VipregForm.vue')['default']
+    WechatPay: typeof import('./components/WechatPay.vue')['default']
   }
   export interface ComponentCustomProperties {
     vLoading: typeof import('element-plus/es')['ElLoadingDirective']
