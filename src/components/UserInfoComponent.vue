@@ -2,16 +2,19 @@
 
 import {h, onMounted, reactive, ref, watch} from "vue";
 import { useUserStore } from "~/stores/user";
-import { ElNotification, FormInstance } from "element-plus";
+import { ElNotification, FormInstance , ElTooltip, ElIcon, ElDialog} from "element-plus";
 import { request } from "~/utils/request";
 import { AxiosError, AxiosResponse } from "axios";
 import { useRouter } from "vue-router";
+import {Coin} from "@element-plus/icons-vue";
 
 const user = useUserStore()
 const router = useRouter()
 
 const ruleFormRef = ref<FormInstance>()
+let activeName = ref(1)
 let edit = ref(false);
+let dialogTableVisible=ref(false)
 let form = reactive({
   username: '',
   name: '',
@@ -114,10 +117,10 @@ onMounted(()=>{
   <div style="display: flex; flex-direction: column">
     <div v-if="edit" style="display: flex; flex-direction: row; justify-content: flex-end">
       <el-button @click="edit = false;">取消</el-button>
-      <el-button type="primary" @click="submitForm(ruleFormRef)">提交</el-button>
+      <el-button type="primary" @click="submitForm(ruleFormRef)" style="margin-right: 83px">提交</el-button>
     </div>
     <div v-else style="display: flex; flex-direction: row-reverse; align-items: flex-end">
-      <el-button type="primary" @click="edit = true; setForm()">编辑</el-button>
+      <el-button type="primary" @click="edit = true; setForm()" style="margin-right: 83px">编辑</el-button>
     </div>
 
     <br />
@@ -158,6 +161,23 @@ onMounted(()=>{
             点击注册
           </el-button>
         </el-form-item>
+
+        <el-form-item>
+          <el-button type="text" @click="dialogTableVisible=true" style="margin-left: 1px">查看会员权益</el-button>
+        </el-form-item>
+
+        <el-dialog title="会员权益" v-model="dialogTableVisible" style="width:35%">
+          <div>成为会员后，可用里程积分抵扣订单金额，抵扣规则如下:<br></div>
+          <div style="text-indent:2em;">里程积分达到1000，则该1000积分可以折 0.1%;</div>
+          <div style="text-indent:2em;">1000到3000积分， 则该2000积分可以折 0.15%;</div>
+          <div style="text-indent:2em;">3000到10000积分， 则该7000积分可以折 0.2%;</div>
+          <div style="text-indent:2em;">10000到50000积分， 则该40000积分可以折 0.25%;</div>
+          <div style="text-indent:2em;">50000积分以上的积分，可以折0.3%.</div>
+          <div>里程积分奖励规则:<br></div>
+          <div style="text-indent:2em;">每完成一单即可获得里程积分奖励，积分数为票面价格的五倍</div>
+        </el-dialog>
+
+
       </div>
 
     </el-form>

@@ -54,7 +54,7 @@ onMounted(() => {
             <h1>个人信息</h1>
           </el-text>
           <br />
-          <UserInfoComponent style="width: 35vh; margin: 0 auto" />
+          <UserInfoComponent style="width: 50vh; margin: 0 auto" />
         </div>
 
         <div v-if="user.role==='passenger'" v-show="index == 2" style="height: 85vh; margin-top: 10vh; width: 65%">
