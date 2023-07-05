@@ -67,7 +67,10 @@ const submitForm = (formEl: FormInstance | undefined) => {
       }
     })
 
-    r.then((response: AxiosResponse<any>) => {
+    r.then((response: AxiosResponse<any>) => {      
+      // 存储用户登录状态
+      localStorage.setItem('isLoggedIn', 'true');
+      localStorage.setItem('role', ruleForm.role);
       user.fetch()
       ElNotification({
         offset: 70,
@@ -80,10 +83,6 @@ const submitForm = (formEl: FormInstance | undefined) => {
       else if(ruleForm.role=='passenger'){
         router.push('/userhome')
       }
-
-
-
-
     }).catch((error: AxiosError<any>) => {
       console.log(error)
       ElNotification({
@@ -114,16 +113,27 @@ const submitForm = (formEl: FormInstance | undefined) => {
     </el-form-item>
 
     <el-form-item>
+
       <el-button style="margin-left: 25%" type="primary" @click="submitForm(ruleFormRef)">登录</el-button>
-      <el-button style="margin-left: 60px" @click="$router.push('/userhome')">
-        <el-icon style="vertical-align: middle">
+    
+      <div class="visitor">
+        <el-button  @click="$router.push('/userhome')">
+          <el-icon style="vertical-align: middle">
           <User />
         </el-icon>
-        <span>访客身份进入</span>
-      </el-button>
+          访客身份进入
+    </el-button>
+      </div>
     </el-form-item>
   </el-form>
+
 </template>
 
 
-<style scoped></style>
+<style scoped>
+.visitor{
+  margin-top:100px;  
+  margin-left:-100px;  
+
+}
+</style>

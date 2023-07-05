@@ -8,6 +8,8 @@ import OrderPage from '../pages/order.vue';
 import RoutePage from '../pages/route.vue';
 import TrainPage from '../pages/train.vue';
 import StationPage from '../pages/station.vue';
+import {useUserStore} from "~/stores/user";
+const user = useUserStore();
 
 const routes: Array<RouteRecordRaw> = [
     {
@@ -91,6 +93,34 @@ const router = createRouter({
     history: createWebHistory(),
     routes
 });
+//刷新处理
+
+// 添加全局导航守卫
+router.beforeEach((to, from, next) => {
+    const isLoggedIn = localStorage.getItem('isLoggedIn');
+  
+    if (to.path !== '/index' && !isLoggedIn) {
+      // 用户未登录，重定向到登录页
+      next('/index');
+    } else if (to.path === '/index' && isLoggedIn) {
+      // 用户已登录，重定向到首页或其他需要跳转的页面
+      next('/userhome');
+    } else {
+      // 其他情况，允许继续导航
+      next();
+    }
+  });
+
+// router.beforeEach((to, from, next) => {
+//     if(to.meta.requiresAuth ){
+//         if(store.state.user.username){
+//             next();
+//     }
+// }else{
+//     user.$state.username = localStorage.getItem('username');
+   
+
+
 //TODO：身份验证
 // router.beforeEach((to, from, next) => {
 //     if (to.meta.requiresAuth && !isAuthenticated()) {
