@@ -129,7 +129,7 @@ getRoute()
             </el-text>
           </template>
           <el-date-picker v-model="train.date" value-format="YYYY-MM-DD" :clearable="false" :disabled-date="disabledDate"
-            style="display: flex; flex-grow: 1" />
+                          style="display: flex; flex-grow: 1" />
         </el-form-item>
       </el-col>
     </el-row>
@@ -144,7 +144,7 @@ getRoute()
           </template>
           <el-select v-model="train.route_id" style="width: 100%">
             <el-option v-for="singleRoute in routes" :key="singleRoute.id" :label="singleRoute.name"
-              :value="singleRoute.id" />
+                       :value="singleRoute.id" />
           </el-select>
         </el-form-item>
       </el-col>
@@ -164,12 +164,12 @@ getRoute()
           </div>
 
           <el-date-picker style="width: 50%; margin-right: 1%" :disabled="index === 0"
-            @change="() => { if (index === route.station_ids.length - 1) { train.departure_times[index] = train.arrival_times[index] } }"
-            v-model="train.arrival_times[index]" type="datetime" placeholder="到点" format="YY/MM/DD HH:mm" />
+                          @change="() => { if (index === route.station_ids.length - 1) { train.departure_times[index] = train.arrival_times[index] } }"
+                          v-model="train.arrival_times[index]" type="datetime" placeholder="到点" format="YY/MM/DD HH:mm" />
 
           <el-date-picker style="width: 50%" :disabled="index === route.station_ids.length - 1"
-            @change="() => { if (index === 0) { train.arrival_times[0] = train.departure_times[0] } }"
-            v-model="train.departure_times[index]" type="datetime" placeholder="开点" format="YY/MM/DD HH:mm" />
+                          @change="() => { if (index === 0) { train.arrival_times[0] = train.departure_times[0] } }"
+                          v-model="train.departure_times[index]" type="datetime" placeholder="开点" format="YY/MM/DD HH:mm" />
         </div>
       </el-card>
     </div>

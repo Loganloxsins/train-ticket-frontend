@@ -6,7 +6,8 @@ import { parseDate } from "~/utils/date";
 import { Right } from "@element-plus/icons-vue";
 import { useStationsStore } from "~/stores/stations";
 import { useRouter } from "vue-router";
-import { OrderDetailData } from "~/utils/interfaces";
+import {OrderDetailData, TrainInfo, UserInfo} from "~/utils/interfaces";
+import OrderDetail from "~/components/OrderDetail.vue";
 
 let orders = reactive({
   data: [] as OrderDetailData[]
@@ -23,6 +24,18 @@ let orderDetail = reactive({
 }
 )
 
+let tochange:OrderDetailData = reactive({
+  id: 0,
+  train_id: 0,
+  seat: '',
+  status: '',
+  created_at: '',
+  start_station_id: 0,
+  end_station_id: 0,
+  departure_time: '',
+  arrival_time: '',
+  price:0
+})
 
 const getOrders = () => {
   request({
@@ -50,6 +63,10 @@ const getTrainName = (id: number) => {
   )
 }
 
+const update = (orderDetail: TrainInfo) =>{
+  getOrders()
+}
+
 onMounted(() => {
   getOrders()
   stations.fetch()
@@ -58,9 +75,13 @@ onMounted(() => {
 </script>
 
 <template>
+  <div>
+    <el-button style="margin-left: 700px" @click="getOrders">
+      刷新
+    </el-button>
+  </div>
   <el-card v-for="order in orders.data " style="margin-bottom: 1vh" shadow="hover">
     <div style="display: flex; flex-direction: column">
-
       <div style="display: flex; justify-content: space-between;">
         <div>
           <el-text size="large" tag="b" type="primary">
@@ -138,14 +159,12 @@ onMounted(() => {
         </el-col>
       </el-row>
     </div>
-
-
-
   </el-card>
+<!--  </div>-->
 
 
   <el-dialog destroy-on-close v-model="dialog" title="订单详情" width="50%">
-    <OrderDetail :id="id" />
+    <OrderDetail :id="id" @updateorder="update" />
   </el-dialog>
 </template>
 

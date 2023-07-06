@@ -293,7 +293,7 @@ getOrderDetail()
 
         </el-dialog>
 
-        <el-button type="danger" @click="cancel(id ?? -1)">
+        <el-button type="danger" @click="cancel(id ?? -1); $emit('updateorder', orderDetail)">
           退票
         </el-button>
       </div>
