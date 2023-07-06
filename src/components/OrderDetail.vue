@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 import { request } from "~/utils/request";
-import { ElNotification } from "element-plus";
+import {ElMessageBox, ElNotification} from "element-plus";
 import { h, onMounted, reactive, watch, ref } from "vue";
 import { useStationsStore } from "~/stores/stations";
 import { parseDate } from "~/utils/date";
@@ -96,7 +96,6 @@ const getTrain = () => {
   }
 }
 
-
 const cancel = (id: number) => {
   request({
     url: `/order/${id}`,
@@ -110,18 +109,34 @@ const cancel = (id: number) => {
       title: '订单已取消',
       message: h('success', { style: 'color: teal' }, res.data.msg),
     })
+
+    request({
+      url:`/order/check/${id}`,
+      method:'POST',
+    }).then((res) => {
+      console.log(res.data.data)
+      if(res.data.data){
+        ElMessageBox({
+          type:'warning',
+          message: '乘客您好，我们发现您存在恶意购票行为（一天内取消订单或退票超过三次），我们将会扣除您100分的里程积分，请您文明购票，谢谢。'
+        })
+      }
+    })
+
     getOrderDetail()
     console.log(res)
   }).catch((error) => {
     if (error.response?.data.code == 100003) {
       router.push('/')
     }
+
     ElNotification({
       offset: 70,
       title: '取消失败',
-      message: h('error', { style: 'color: teal' }, error.response?.data.msg),
+      message: h('error', {style: 'color: teal'}, error.response?.data.msg),
     })
     console.log(error)
+
   })
 }
 

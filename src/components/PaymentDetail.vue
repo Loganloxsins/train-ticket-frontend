@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 import { request } from "~/utils/request";
-import { ElNotification,ElImage } from "element-plus";
+import {ElNotification, ElImage, ElMessageBox} from "element-plus";
 import { h, onMounted, reactive, watch, ref } from "vue";
 import { useStationsStore } from "~/stores/stations";
 import { useRouter } from "vue-router";
@@ -127,6 +127,18 @@ const wechatPay = (id: number) => {
     }
   }).then((res) => {
     console.log(res)
+    request({
+      url:`/order/check/${id}`,
+      method:'POST',
+    }).then((res) => {
+      console.log(res.data.data)
+      if(res.data.data){
+        ElMessageBox({
+          type:'warning',
+          message: '乘客您好，我们发现您存在恶意购票行为（一天内购票超过五张），我们将会扣除您100分的里程积分，请您文明购票，谢谢。'
+        })
+      }
+    })
     router.push('/search')
   }).catch((error) => {
     if (error.response?.data.code == 100003) {
