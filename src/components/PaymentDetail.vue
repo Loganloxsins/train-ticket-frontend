@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 import { request } from "~/utils/request";
-import { ElNotification } from "element-plus";
+import { ElNotification,ElImage } from "element-plus";
 import { h, onMounted, reactive, watch, ref } from "vue";
 import { useStationsStore } from "~/stores/stations";
 import { useRouter } from "vue-router";
@@ -220,19 +220,20 @@ const refreshData = () => {
     </div>
 
     <div v-if="code===true" style="margin-top: 20px">
-      <img src="public/wechatpay.jpg" alt="微信支付" style="width: 350px">
+<!--      <img src="public/wechatpay.jpg" alt="微信支付" style="width: 350px">-->
+      <el-image src="/public/wechatpay.jpg"></el-image>
     </div>
 
     <div v-if="code!==true" style="margin-bottom: 2vh; margin-top: 20px">
-      <el-button style="margin-left:50px" @click="payByAlipay(id ?? -1)">
+      <el-button style="margin-left:80px" @click="payByAlipay(id ?? -1)">
         支付宝支付
       </el-button>
-      <el-button style="margin-left:80px" @click="changeCode">
+      <el-button style="margin-left:180px" @click="changeCode">
         微信支付
       </el-button>
     </div>
     <div v-else>
-      <el-button style="margin-left:145px" @click="wechatPay(id ?? -1)">
+      <el-button style="margin-left:240px" @click="wechatPay(id ?? -1)">
         完成
       </el-button>
     </div>
