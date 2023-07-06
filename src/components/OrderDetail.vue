@@ -21,6 +21,7 @@ let hr=ref(0)
 let min=ref(0)
 let sec=ref(0)
 let hasDepart=ref(false)
+let dialogTableVisible=ref(false)
 
 let orderDetail = reactive<{ data: OrderDetailData }>({
   data: {
@@ -40,6 +41,20 @@ let orderDetail = reactive<{ data: OrderDetailData }>({
 let train = reactive<{ data: { name?: string } }>({
   data: {}
 });
+
+const tableData=[{
+  days: '大于等于8天',
+  rate: '不收取退票费',
+}, {
+  days: '大于等于2天小于8天',
+  rate: '5%',
+}, {
+  days: '大于等于1天小于2天',
+  rate: '10%',
+}, {
+  days: '小于1天',
+  rate: '20%',
+}]
 
 const getOrderDetail = () => {
   request({
@@ -81,34 +96,6 @@ const getTrain = () => {
   }
 }
 
-
-// const pay = (id: number) => {
-//   request({
-//     url: `/order/${id}`,
-//     method: 'PATCH',
-//     data: {
-//       status: '已支付'
-//     }
-//   }).then((res) => {
-//     ElNotification({
-//       offset: 70,
-//       title: '支付成功',
-//       message: h('success', { style: 'color: teal' }, res.data.msg),
-//     })
-//     getOrderDetail()
-//     console.log(res)
-//   }).catch((error) => {
-//     if (error.response?.data.code == 100003) {
-//       router.push('/')
-//     }
-//     ElNotification({
-//       offset: 70,
-//       title: '支付失败',
-//       message: h('error', { style: 'color: teal' }, error.response?.data.msg),
-//     })
-//     console.log(error)
-//   })
-// }
 
 const cancel = (id: number) => {
   request({
@@ -153,7 +140,7 @@ const countdown = () => {
   const depart = Date.parse(new Date(orderDetail.data.departure_time).toString())
   const msec = end - now
   const diff = depart-now
-  let diff_min=diff / 1000 / 60 % 60
+  let diff_min=diff / 1000 / 60
   if(diff_min<=0){
     hasDepart.value=true
   }
@@ -282,8 +269,32 @@ getOrderDetail()
     </div>
     <div v-else-if="orderDetail.data && orderDetail.data.status === '已完成'&&hasDepart!==true" style="margin-top: 2vh">
       <div style="float:right;">
+        <el-button type="text" @click="dialogTableVisible=true" style="margin-right: 20px ; text-decoration: underline">退票须知</el-button>
+
+        <el-dialog title="退票规则" v-model="dialogTableVisible" style="width:65%">
+          <div style="text-indent:2em;">在l23o6网站购买且未检票使用的车票，均可在开车前通过l23o6网站或车站指定窗口办理退票手续。<br></div>
+          <div style="text-indent:2em;">在l23o6网站办理退票时，按购票时所使用的在线支付工具相关规定，应退票款在规定时间退回购票时所使用的在线支付工具。<br></div>
+          <div style="text-indent:2em;">退票时需要收取一定的退票费，退票费的金额与距离发车的时间有关。具体规则如下：<br></div>
+
+          <el-table
+              :data="tableData"
+              style="width: 100%; margin-left: 20px">
+            <el-table-column
+                prop="days"
+                label="距离发车时间"
+                width="180">
+            </el-table-column>
+            <el-table-column
+                prop="rate"
+                label="退票费占订单价格的比率"
+                width="180">
+            </el-table-column>
+          </el-table>
+
+        </el-dialog>
+
         <el-button type="danger" @click="cancel(id ?? -1)">
-          取消订单
+          退票
         </el-button>
       </div>
     </div>

@@ -163,7 +163,7 @@ onMounted(()=>{
         </el-form-item>
 
         <el-form-item>
-          <el-button type="text" @click="dialogTableVisible=true" style="margin-left: 1px">查看会员权益</el-button>
+          <el-button type="text" @click="dialogTableVisible=true" style="margin-left: 1px" text-decoration: underline>查看会员权益</el-button>
         </el-form-item>
 
         <el-dialog title="会员权益" v-model="dialogTableVisible" style="width:35%">
