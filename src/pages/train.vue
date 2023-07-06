@@ -52,6 +52,66 @@ const addTrain = (train: TrainInfo) => {
     })
     return
   }
+  if (train.name === undefined) {
+    ElMessage({
+      message: '车次名不能为空',
+      type: 'error',
+    })
+    return
+  }
+  if (train.train_type === undefined) {
+    ElMessage({
+      message: '车型不能为空',
+      type: 'error',
+    })
+    return
+  }
+  if (train.date === undefined) {
+    ElMessage({
+      message: '日期不能为空',
+      type: 'error',
+    })
+    return
+  }
+
+  let departure_times=train.departure_times
+  let arrival_times=train.arrival_times
+
+  let departDay1=new Date(train.date).getDay()
+  let departDay2=new Date(departure_times[0]).getDay()
+  if(departDay1!=departDay2){
+    ElMessage({
+      message: '出发时间与日期不符',
+      type: 'error',
+    })
+    return;
+  }
+
+  for(let i=0;i<departure_times.length;i++){
+    if(i>=1){
+      let duration=Date.parse(new Date(arrival_times[i]).toString())-Date.parse(new Date(departure_times[i-1]).toString())
+      if(duration<=0){
+        console.log(duration)
+        ElMessage({
+          message: '到点或开点填写有误',
+          type: 'error',
+        })
+        return;
+      }
+
+      if(i!=departure_times.length-1){
+        let stay=new Date(departure_times[i])-new Date(arrival_times[i])
+        if(stay<=0){
+          ElMessage({
+            message: '到点或开点填写有误',
+            type: 'error',
+          })
+          return;
+        }
+      }
+    }
+  }
+
   request({
     url: '/admin/train',
     method: 'POST',

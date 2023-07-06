@@ -57,6 +57,11 @@ const getRoutes = () => {
   console.log("end")
 }
 
+const disabledDate = (time: Date) => {
+  let now = new Date();
+  return time.getTime() < new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+}
+
 getRoutes()
 
 const getRoute = () => {
@@ -123,7 +128,7 @@ getRoute()
               日期
             </el-text>
           </template>
-          <el-date-picker v-model="train.date" value-format="YYYY-MM-DD" :clearable="false"
+          <el-date-picker v-model="train.date" value-format="YYYY-MM-DD" :clearable="false" :disabled-date="disabledDate"
             style="display: flex; flex-grow: 1" />
         </el-form-item>
       </el-col>
