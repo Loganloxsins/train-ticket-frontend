@@ -160,7 +160,7 @@ const countdown = () => {
     hasDepart.value=true
   }
 
-  if(orderDetail.data.status==='等待支付'&&(msec<=0||diff_min<=30)){
+  if(orderDetail.data.status==='等待支付'&&(msec<=0||diff_min<=0)){
     cancel(props.id ?? -1)
     return;
   }
