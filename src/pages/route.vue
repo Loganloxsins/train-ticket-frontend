@@ -145,7 +145,7 @@ const filter = () => {
 }
 
 onMounted(() => {
-  if (user.name === '') {
+  if (user.name === ''&&!localStorage.getItem('isLoggedIn')) {
     router.push('/')
     ElMessage("请先登录")
     return

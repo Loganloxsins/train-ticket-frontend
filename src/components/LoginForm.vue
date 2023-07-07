@@ -107,22 +107,23 @@ const submitForm = (formEl: FormInstance | undefined) => {
 
     <el-form-item label="身份" prop="role">
       <el-select v-model="ruleForm.role" placeholder="请选择您的登入身份">
-      <el-option label="乘客" value="passenger"></el-option>
-      <el-option label="管理员" value="admin"></el-option>
-    </el-select>
+        <el-option label="乘客" value="passenger"></el-option>
+        <el-option label="管理员" value="admin"></el-option>
+      </el-select>
     </el-form-item>
 
     <el-form-item>
+      <el-button style="margin-left: 25%;margin-top: 20px" type="primary" @click="submitForm(ruleFormRef)">登录</el-button>
+    </el-form-item>
 
-      <el-button style="margin-left: 25%" type="primary" @click="submitForm(ruleFormRef)">登录</el-button>
-    
+    <el-form-item>
       <div class="visitor">
         <el-button  @click="$router.push('/userhome')">
           <el-icon style="vertical-align: middle">
-          <User />
-        </el-icon>
+           <User />
+          </el-icon>
           访客身份进入
-    </el-button>
+         </el-button>
       </div>
     </el-form-item>
   </el-form>
@@ -132,8 +133,8 @@ const submitForm = (formEl: FormInstance | undefined) => {
 
 <style scoped>
 .visitor{
-  margin-top:100px;  
-  margin-left:-100px;  
+  margin-top:5px;
+  margin-left:55px;
 
 }
 </style>
