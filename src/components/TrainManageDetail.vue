@@ -28,6 +28,9 @@ let route = reactive({
   station_ids: []
 });
 
+/*
+  获取路线信息
+ */
 const getRoute = () => {
   request({
     url: `/admin/route/${props.route_id}`,

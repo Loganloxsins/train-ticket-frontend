@@ -56,6 +56,9 @@ const tableData=[{
   rate: '20%',
 }]
 
+/*
+  获取订单详细信息
+ */
 const getOrderDetail = () => {
   request({
     url: `/order/${props.id}`,
@@ -76,6 +79,9 @@ const getOrderDetail = () => {
   })
 }
 
+/*
+  获取路线详细信息
+ */
 const getTrain = () => {
   console.log("getTrain")
   if (orderDetail.data) {
@@ -96,6 +102,9 @@ const getTrain = () => {
   }
 }
 
+/*
+  取消订单或退票
+ */
 const cancel = (id: number) => {
   request({
     url: `/order/${id}`,
@@ -140,6 +149,9 @@ const cancel = (id: number) => {
   })
 }
 
+/*
+  未支付订单的倒计时功能
+ */
 const countdown = () => {
   let dt=new Date(orderDetail.data.created_at)
 

@@ -44,7 +44,11 @@ let toChange: TrainInfo = reactive({
 let add = ref(false)
 let change = ref(false)
 
+/*
+  添加路线
+ */
 const addTrain = (train: TrainInfo) => {
+  //判断输入内容是否合法
   if (train.route_id === undefined) {
     ElMessage({
       message: '路线不能为空',
@@ -112,6 +116,7 @@ const addTrain = (train: TrainInfo) => {
     }
   }
 
+  //请求添加路线
   request({
     url: '/admin/train',
     method: 'POST',
@@ -147,6 +152,10 @@ const addTrain = (train: TrainInfo) => {
   })
 }
 
+
+/*
+  删除路线
+ */
 const delTrain = (id: number) => {
   request({
     url: `/admin/train/${id}`,
@@ -173,7 +182,11 @@ const delTrain = (id: number) => {
   })
 }
 
+/*
+  更改路线信息
+ */
 const changeTrain = (train: TrainInfo) => {
+  //判断输入内容是否合法
   if (train.route_id === undefined) {
     ElMessage({
       message: '路线不能为空',
@@ -241,6 +254,7 @@ const changeTrain = (train: TrainInfo) => {
     }
   }
 
+  //请求更改路线信息
   request({
     url: `/admin/train/${toChange.id}`,
     method: 'PUT',
@@ -276,6 +290,9 @@ const changeTrain = (train: TrainInfo) => {
   })
 }
 
+/*
+  刷新，获取最新的路线列表
+ */
 const refreshData = () => {
   stations.fetch()
   request({
@@ -304,6 +321,7 @@ const filter = () => {
 }
 
 onMounted(() => {
+  //验权，如无权限则需登录
   if (user.name === ''&&!localStorage.getItem('isLoggedIn')) {
     router.push('/')
     ElMessage("请先登录")

@@ -37,6 +37,9 @@ let tochange:OrderDetailData = reactive({
   price:0
 })
 
+/*
+  获取用户的所有订单
+ */
 const getOrders = () => {
   request({
     url: '/order',
@@ -51,6 +54,9 @@ const getOrders = () => {
   })
 }
 
+/*
+  获取车次名
+ */
 const getTrainName = (id: number) => {
   request({
     url: `/train/${id}`,

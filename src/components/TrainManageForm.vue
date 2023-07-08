@@ -37,6 +37,9 @@ let route = reactive({
 })
 let routes = ref([] as RouteInfo[])
 
+/*
+  获取所有路线
+ */
 const getRoutes = () => {
   request({
     url: `/admin/route`,
@@ -64,6 +67,9 @@ const disabledDate = (time: Date) => {
 
 getRoutes()
 
+/*
+  获取路线详细信息
+ */
 const getRoute = () => {
   if (train.route_id === undefined) return
   request({

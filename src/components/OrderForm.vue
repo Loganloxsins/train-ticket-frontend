@@ -54,6 +54,9 @@ const orderRules = reactive<FormRules>({
   seat_type: [{ required: true, message: '此字段为必填项', trigger: 'change' }],
 })
 
+/*
+  提交订单
+ */
 const submitOrderForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   let array=props.ticket_info

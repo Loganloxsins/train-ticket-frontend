@@ -7,19 +7,7 @@ import { AxiosError, AxiosResponse } from 'axios';
 import { useRouter } from "vue-router";
 import {useUserStore} from "~/stores/user";
 import {Search, User} from "@element-plus/icons-vue";
-import { mapState,mapGetters,mapMutations,mapActions } from "vuex";
 
-// const state = {
-//   userInfo: JSON.parse(localStorage.getItem("userInfo")) || {},//先去localStorage中获取数据
-// }
-// const mutations = {
-//   setuserInfo(state, v) {
-//     localStorage.setItem('userInfo', JSON.stringify(v));//将传递的数据先保存到localStorage中
-//     state.userInfo = v;// 之后才是修改state中的状态
-//   },
-// }
-
-// const info= useUserInfoStore;
 const user = useUserStore();
 const router = useRouter();
 
@@ -49,7 +37,9 @@ const rules = reactive<FormRules>({
   role: [{ required: true, message: '此字段为必填项', trigger: 'change' }],
 })
 
-
+/*
+  用户登录
+ */
 const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.validate((valid) => {

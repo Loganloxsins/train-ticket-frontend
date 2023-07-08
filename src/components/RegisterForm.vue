@@ -67,6 +67,9 @@ const rules = reactive<FormRules>({
   role: [{ required: true, message: '此字段为必填项', trigger: 'change' }],
 })
 
+/*
+  注册
+ */
 const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.validate((valid) => {

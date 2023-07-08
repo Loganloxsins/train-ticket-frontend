@@ -54,12 +54,16 @@ let userDetail = reactive<{ data: UserInfo }>({
   },
 })
 
-
+/*
+  使用积分或取消使用积分
+ */
 const change = (id: number) => {
+  //如果使用积分但还不是会员，跳转到会员注册页面
   if(value.value&&!userDetail.data.member){
     router.push('/vipregister')
     return
   }
+  //使用积分
   if(value.value) {
     request({
       url: `/order/usePoints/${id}`,
@@ -73,7 +77,7 @@ const change = (id: number) => {
       console.log(error)
     })
   }
-  else{
+  else{  //不使用积分
     request({
       url: `/order/cancelUsePoints/${id}`,
       method: 'GET',
@@ -88,6 +92,7 @@ const change = (id: number) => {
   }
 }
 
+//使用阿里云支付
 const payByAlipay = (id: number) => {
   request({
     url: `/order/${id}`,
@@ -113,10 +118,16 @@ const payByAlipay = (id: number) => {
   })
 }
 
+/*
+  展示二维码
+ */
 const changeCode = () =>{
   code.value=true
 }
 
+/*
+  使用微信支付
+ */
 const wechatPay = (id: number) => {
   request({
     url: `/order/${id}`,
@@ -127,18 +138,6 @@ const wechatPay = (id: number) => {
     }
   }).then((res) => {
     console.log(res)
-    request({
-      url:`/order/check/${id}`,
-      method:'POST',
-    }).then((res) => {
-      console.log(res.data.data)
-      if(res.data.data){
-        ElMessageBox({
-          type:'warning',
-          message: '乘客您好，我们发现您存在恶意购票行为（一天内购票超过五张），我们将会扣除您100分的里程积分，请您文明购票，谢谢。'
-        })
-      }
-    })
     router.push('/search')
   }).catch((error) => {
     if (error.response?.data.code == 100003) {
@@ -157,6 +156,9 @@ onMounted(() => {
   refreshData()
 })
 
+/*
+  刷新，获取最新的订单信息
+ */
 const refreshData = () => {
   request({
     url: `/order/${props.id}`,
