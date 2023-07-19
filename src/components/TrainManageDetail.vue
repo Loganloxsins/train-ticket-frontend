@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import { Right, SwitchFilled } from "@element-plus/icons-vue";
+import { Right, SwitchFilled,Plus,Location,LocationFilled } from "@element-plus/icons-vue";
 import { h, reactive, watch } from "vue";
 import { request } from "~/utils/request";
 import { useStationsStore } from "~/stores/stations";
@@ -107,7 +107,7 @@ getRoute()
     <div style="display: flex; align-items: center">
       <el-space :size="50" style="width: 50%">
         <el-icon size="large">
-          <SwitchFilled />
+          <Location />
         </el-icon>
         <strong>
           {{ index + 1 }}
