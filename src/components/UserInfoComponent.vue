@@ -65,6 +65,9 @@ const rules = reactive({
   }],
 })
 
+/*
+  修改基本信息
+ */
 const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.validate((valid) => {

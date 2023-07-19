@@ -21,8 +21,13 @@ let toRename = ref('')
 let toRenameId = ref(0)
 let rename = ref(false)
 
+/*
+  增加车站
+ */
 const addStation = () => {
   if (toAdd.value === '') return
+
+  //请求增加车站
   request({
     url: '/admin/station',
     method: 'POST',
@@ -52,7 +57,11 @@ const addStation = () => {
   })
 }
 
+/*
+  删除车站
+ */
 const delStation = (id: number) => {
+  //请求删除车站
   request({
     url: `/admin/station/${id}`,
     method: 'DELETE'
@@ -78,7 +87,11 @@ const delStation = (id: number) => {
   })
 }
 
+/*
+  重命名车站
+ */
 const renameStation = () => {
+  //请求更改车站名称
   request({
     url: `/admin/station/${toRenameId.value}`,
     method: 'PUT',
@@ -117,6 +130,7 @@ const filter = () => {
 }
 
 onMounted(() => {
+  //验权，如无权限则需登录
   if (user.name === ''&&!localStorage.getItem('isLoggedIn')) {
     router.push('/')
     ElMessage("请先登录")

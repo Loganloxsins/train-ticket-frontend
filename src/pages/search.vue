@@ -24,6 +24,9 @@ onMounted(() => {
   }
 })
 
+/*
+  查询车次
+ */
 const submit = () => {
   loading.value = true
   const r = request({

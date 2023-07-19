@@ -9,6 +9,7 @@ const user = useUserStore()
 const router = useRouter()
 
 onMounted(() => {
+  //验权，如无权限则需登录
   if (user.name === ''&&!localStorage.getItem('isLoggedIn')) {
     router.push('/')
     ElMessage("请先登录")

@@ -30,6 +30,9 @@ let toChange: RouteInfo = {
 let change = ref(false)
 let add = ref(false)
 
+/*
+  添加路线
+ */
 const addRoute = (route: RouteInfo) => {
   request({
     url: '/admin/route',
@@ -61,6 +64,9 @@ const addRoute = (route: RouteInfo) => {
   })
 }
 
+/*
+  删除路线
+ */
 const delRoute = (id: number) => {
   request({
     url: `/admin/route/${id}`,
@@ -87,6 +93,9 @@ const delRoute = (id: number) => {
   })
 }
 
+/*
+  修改路线信息
+ */
 const changeRoute = (route: RouteInfo) => {
   request({
     url: `/admin/route/${toChange.id}`,
@@ -118,6 +127,9 @@ const changeRoute = (route: RouteInfo) => {
   })
 }
 
+/*
+  刷新，获取最新的路线列表
+ */
 const refreshData = () => {
   stations.fetch()
   request({
@@ -145,6 +157,7 @@ const filter = () => {
 }
 
 onMounted(() => {
+  //验权，如无权限则需登录
   if (user.name === ''&&!localStorage.getItem('isLoggedIn')) {
     router.push('/')
     ElMessage("请先登录")

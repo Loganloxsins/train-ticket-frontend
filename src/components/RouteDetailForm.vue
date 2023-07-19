@@ -32,6 +32,9 @@ if (Array.isArray(props.station_ids)) {
 
 route.name = <string>props.name;
 
+/*
+  添加车站
+ */
 const addStation = () => {
   if (toAddId.value === undefined) {
     ElMessage({
@@ -44,6 +47,9 @@ const addStation = () => {
   add.value = false;
 }
 
+/*
+  修改车站
+ */
 const editStation = () => {
   if (typeof toEditIndex.value === "number" && typeof toEditId.value === "number") {
     route.station_ids.splice(toEditIndex.value, 1, toEditId.value)

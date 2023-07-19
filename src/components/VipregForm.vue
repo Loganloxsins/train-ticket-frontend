@@ -37,6 +37,9 @@ const rules = reactive<FormRules>({
   }],
 })
 
+/*
+  注册会员
+ */
 const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.validate((valid) => {

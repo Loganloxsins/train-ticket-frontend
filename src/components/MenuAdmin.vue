@@ -17,6 +17,9 @@ const menuSelect = (key: string, keyPath: string[]) => {
     console.log(key, keyPath);
 }
 
+/*
+  退出登录，删除存储的登录信息
+ */
 const logout = () => {
   request({
     url: '/session',
@@ -27,6 +30,7 @@ const logout = () => {
       title: '登出成功',
       message: h('info', { style: 'color: teal' }, response.data.msg),
     })
+    localStorage.removeItem('isLoggedIn')
     user.$reset()
     router.push('/')
   }).catch((error: AxiosError<any>) => {
